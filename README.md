@@ -182,8 +182,7 @@ Principais referências adotadas:
 
 ## 🏫 Instituição
 
-Projeto desenvolvido no  
-:contentReference[oaicite:0]{index=0} – Câmpus Gaspar  
+Projeto desenvolvido no Instituto Federal de Santa Catarina - Câmpus Gaspar  
 
 ---
 
