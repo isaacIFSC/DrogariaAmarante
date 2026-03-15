@@ -1,0 +1,186 @@
+﻿<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DrogariaAmarante | Home</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <!-- Topo promocional (opcional, fácil de remover no futuro) -->
+  <div class="topbar" role="banner">
+    <p>Oferta limitada: 10% OFF na primeira compra • 25:15:00</p>
+  </div>
+
+  <header class="site-header" role="banner">
+    <div class="container header-grid">
+      <a class="logo" href="#" aria-label="DrogariaAmarante">
+        <span class="logo-mark" aria-hidden="true">DA</span>
+        <span class="logo-text">Drogaria<span>Amarante</span></span>
+      </a>
+
+      <form class="search" role="search" aria-label="Buscar produtos">
+        <label class="sr-only" for="campo-busca">Buscar</label>
+        <input id="campo-busca" type="search" placeholder="O que você procura?" />
+        <button type="submit" class="icon-btn" aria-label="Pesquisar">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-3.5-3.5" />
+          </svg>
+        </button>
+      </form>
+
+      <div class="header-actions">
+        <button class="icon-btn" aria-label="Minha conta">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c1.6-3.5 5-5 8-5s6.4 1.5 8 5" />
+          </svg>
+        </button>
+        <button class="icon-btn" aria-label="Carrinho">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 7h13l-1.5 9H8L6 7Z" />
+            <circle cx="9" cy="20" r="1.5" />
+            <circle cx="17" cy="20" r="1.5" />
+            <path d="M4 4h2l1 3" />
+          </svg>
+          <span class="badge" aria-label="2 itens">2</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menu principal">
+    <div class="container menu-grid">
+      <button class="menu-item">
+        <span class="dot" aria-hidden="true"></span>
+        Envio via CEP
+      </button>
+      <button class="menu-item">
+        <span class="dot" aria-hidden="true"></span>
+        Todas as categorias
+      </button>
+      <button class="menu-item">
+        <span class="dot" aria-hidden="true"></span>
+        Mais buscados
+      </button>
+      <button class="menu-item">
+        <span class="dot" aria-hidden="true"></span>
+        Ofertas
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" aria-label="Banner promocional">
+      <div class="container">
+        <div class="slider" data-slider>
+          <!-- Estrutura pronta para carrossel: troque/adicione slides via Thymeleaf -->
+          <div class="slider-track">
+            <article class="slide is-active" role="group" aria-roledescription="slide" aria-label="1 de 3">
+              <div class="slide-content">
+                <p class="kicker">A nutricao ideal para o seu filho</p>
+                <h1>
+                  Com ate <strong>25%</strong>
+                  <span>de desconto</span>
+                </h1>
+                <button class="cta">Confira</button>
+              </div>
+              <div class="slide-visual" aria-hidden="true">
+                <div class="product-stack">
+                  <div class="jar jar-a"></div>
+                  <div class="jar jar-b"></div>
+                  <div class="jar jar-c"></div>
+                </div>
+              </div>
+            </article>
+
+            <article class="slide" role="group" aria-roledescription="slide" aria-label="2 de 3">
+              <div class="slide-content">
+                <p class="kicker">Saude e bem-estar</p>
+                <h1>
+                  Suplementos com
+                  <strong>frete gratis</strong>
+                  <span>acima de R$ 199</span>
+                </h1>
+                <button class="cta">Confira</button>
+              </div>
+              <div class="slide-visual" aria-hidden="true">
+                <div class="pill"></div>
+              </div>
+            </article>
+
+            <article class="slide" role="group" aria-roledescription="slide" aria-label="3 de 3">
+              <div class="slide-content">
+                <p class="kicker">Cuidado diario</p>
+                <h1>
+                  Kits de higiene
+                  <strong>combinados</strong>
+                  <span>por tempo limitado</span>
+                </h1>
+                <button class="cta">Confira</button>
+              </div>
+              <div class="slide-visual" aria-hidden="true">
+                <div class="spray"></div>
+              </div>
+            </article>
+          </div>
+
+          <button class="slider-control prev" aria-label="Slide anterior">‹</button>
+          <button class="slider-control next" aria-label="Proximo slide">›</button>
+
+          <div class="slider-dots" role="tablist" aria-label="Selecionar slide">
+            <button class="dot is-active" aria-label="Slide 1" role="tab"></button>
+            <button class="dot" aria-label="Slide 2" role="tab"></button>
+            <button class="dot" aria-label="Slide 3" role="tab"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="products" aria-labelledby="mais-comprados">
+      <div class="container">
+        <header class="section-header">
+          <h2 id="mais-comprados">Mais comprados</h2>
+        </header>
+
+        <div class="products-grid">
+          <!-- Cards renderizados via Thymeleaf -->
+          <article class="product-card" th:each="produto : ${produtos}">
+            <div class="product-image">
+              <img
+                th:src="${produto.imagemUrl}"
+                src="/images/produto-placeholder.png"
+                alt="Imagem do produto"
+              />
+            </div>
+            <div class="product-info">
+              <h3 th:text="${produto.nome}">Nome do produto</h3>
+              <p class="price" th:text="${produto.preco}">R$ 00,00</p>
+            </div>
+            <button class="add-btn" type="button" aria-label="Adicionar ao carrinho">+</button>
+          </article>
+
+          <!-- Placeholder para estado sem produtos -->
+          <article class="product-card" th:if="${#lists.isEmpty(produtos)}">
+            <div class="product-image">
+              <span class="placeholder">Sem produtos cadastrados</span>
+            </div>
+            <div class="product-info">
+              <h3>Exemplo de produto</h3>
+              <p class="price">R$ 00,00</p>
+            </div>
+            <button class="add-btn" type="button" aria-label="Adicionar ao carrinho">+</button>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>DrogariaAmarante © 2026. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+</body>
+</html>
