@@ -1,0 +1,158 @@
+﻿<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DrogariaAmarante | Carrinho</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <div class="topbar" role="banner">
+    <p>Oferta limitada: 10% OFF na primeira compra • 25:15:00</p>
+  </div>
+
+  <header class="site-header" role="banner">
+    <div class="container header-grid">
+      <a class="logo" href="/" aria-label="DrogariaAmarante">
+        <span class="logo-mark" aria-hidden="true">DA</span>
+        <span class="logo-text">Drogaria<span>Amarante</span></span>
+      </a>
+
+      <form class="search" role="search" aria-label="Buscar produtos">
+        <label class="sr-only" for="campo-busca">Buscar</label>
+        <input id="campo-busca" type="search" placeholder="O que voce procura?" />
+        <button type="submit" class="icon-btn" aria-label="Pesquisar">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-3.5-3.5" />
+          </svg>
+        </button>
+      </form>
+
+      <div class="header-actions">
+        <button class="icon-btn" aria-label="Minha conta">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c1.6-3.5 5-5 8-5s6.4 1.5 8 5" />
+          </svg>
+        </button>
+        <button class="icon-btn" aria-label="Carrinho">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 7h13l-1.5 9H8L6 7Z" />
+            <circle cx="9" cy="20" r="1.5" />
+            <circle cx="17" cy="20" r="1.5" />
+            <path d="M4 4h2l1 3" />
+          </svg>
+          <span class="badge" aria-label="2 itens">2</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menu principal">
+    <div class="container menu-grid">
+      <button class="menu-item">
+        <span class="dot" aria-hidden="true"></span>
+        Envio via CEP
+      </button>
+      <button class="menu-item">
+        <span class="dot" aria-hidden="true"></span>
+        Todas as categorias
+      </button>
+      <button class="menu-item">
+        <span class="dot" aria-hidden="true"></span>
+        Mais buscados
+      </button>
+      <button class="menu-item">
+        <span class="dot" aria-hidden="true"></span>
+        Ofertas
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="cart" aria-labelledby="titulo-carrinho">
+      <div class="container">
+        <header class="cart-header">
+          <h1 id="titulo-carrinho">Carrinho de compras</h1>
+        </header>
+
+        <div class="cart-layout">
+          <div class="cart-list" role="list">
+            <div class="cart-list-header" role="row">
+              <span>Produto</span>
+              <span>Preco</span>
+              <span>Quantidade</span>
+              <span>Total</span>
+            </div>
+
+            <!-- Itens do carrinho via Thymeleaf -->
+            <article class="cart-item" th:each="item : ${carrinho}">
+              <div class="cart-product">
+                <div class="cart-thumb">
+                  <img
+                    th:src="${item.imagemUrl}"
+                    src="/images/produto-placeholder.png"
+                    alt="Imagem do produto"
+                  />
+                </div>
+                <div>
+                  <h3 th:text="${item.nome}">Nome do produto</h3>
+                  <p class="cart-sub">Descricao curta do produto</p>
+                </div>
+              </div>
+
+              <div class="cart-price" th:text="${item.precoUnitario}">R$ 0,00</div>
+
+              <div class="cart-qty">
+                <button type="button" class="qty-btn" aria-label="Diminuir">-</button>
+                <input type="number" min="1" value="1" th:value="${item.quantidade}" />
+                <button type="button" class="qty-btn" aria-label="Aumentar">+</button>
+              </div>
+
+              <div class="cart-total" th:text="${item.total}">R$ 0,00</div>
+            </article>
+
+            <!-- Placeholder quando carrinho vazio -->
+            <article class="cart-item" th:if="${#lists.isEmpty(carrinho)}">
+              <div class="cart-product">
+                <div class="cart-thumb"></div>
+                <div>
+                  <h3>Seu carrinho esta vazio</h3>
+                  <p class="cart-sub">Adicione produtos para continuar</p>
+                </div>
+              </div>
+              <div class="cart-price">R$ 0,00</div>
+              <div class="cart-qty">
+                <button type="button" class="qty-btn" aria-label="Diminuir">-</button>
+                <input type="number" min="1" value="0" />
+                <button type="button" class="qty-btn" aria-label="Aumentar">+</button>
+              </div>
+              <div class="cart-total">R$ 0,00</div>
+            </article>
+          </div>
+
+          <aside class="order-summary" aria-label="Resumo do pedido">
+            <h2>Resumo do pedido</h2>
+            <ul class="summary-list">
+              <li><span>Subtotal</span><strong th:text="${resumo.subtotal}">R$ 0,00</strong></li>
+              <li><span>Descontos</span><strong th:text="${resumo.descontos}">R$ 0,00</strong></li>
+              <li><span>Taxa de entrega</span><strong th:text="${resumo.taxaEntrega}">R$ 0,00</strong></li>
+              <li class="summary-total"><span>Total</span><strong th:text="${resumo.total}">R$ 0,00</strong></li>
+            </ul>
+            <button class="btn-primary" type="button">Prosseguir</button>
+            <button class="btn-secondary" type="button">Continuar comprando</button>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="auth-site-footer">
+    <div class="logo">
+      <span class="logo-mark" aria-hidden="true">DA</span>
+      <span class="logo-text">Drogaria <span>Amarante</span></span>
+    </div>
+  </footer>
+</body>
+</html>

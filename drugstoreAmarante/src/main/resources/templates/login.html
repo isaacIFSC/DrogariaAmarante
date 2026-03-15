@@ -1,0 +1,64 @@
+﻿<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DrogariaAmarante | Login</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body class="auth-page">
+  <main class="auth-main" role="main">
+    <section class="auth-card" aria-label="Acesso a conta">
+      <header class="auth-header">
+        <h1>Entrar</h1>
+        <p>Use seu email ou CPF para acessar</p>
+      </header>
+
+      <!-- Estrutura pronta para integracao com Spring Security -->
+      <form class="auth-form" th:action="@{/login}" method="post" th:object="${loginForm}">
+        <label class="field">
+          <span>Email ou CPF</span>
+          <input
+            type="text"
+            name="username"
+            placeholder="Email ou CPF"
+            th:field="*{username}"
+            autocomplete="username"
+            required
+          />
+        </label>
+
+        <label class="field">
+          <span>Senha</span>
+          <input
+            type="password"
+            name="password"
+            placeholder="Senha"
+            th:field="*{password}"
+            autocomplete="current-password"
+            required
+          />
+        </label>
+
+        <button class="btn-primary" type="submit">Entrar</button>
+
+        <div class="auth-links">
+          <a href="#" class="link">Esqueci a senha</a>
+        </div>
+
+        <div class="auth-footer">
+          <span>Nao tem conta?</span>
+          <a href="#" class="link">Cadastre-se</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="auth-site-footer">
+    <div class="logo">
+      <span class="logo-mark" aria-hidden="true">DA</span>
+      <span class="logo-text">Drogaria <span>Amarante</span></span>
+    </div>
+  </footer>
+</body>
+</html>
