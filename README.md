@@ -186,6 +186,39 @@ Projeto desenvolvido no Instituto Federal de Santa Catarina - Câmpus Gaspar
 
 ---
 
+---
+
+## 🗂️ Planejamento de Desenvolvimento
+
+### 🚀 Sprint 1 – Estrutura Inicial do Projeto
+
+- [x] Enviar documentação inicial do projeto  
+- [x] Criar projeto Spring Boot Starter com as dependências necessárias  
+- [x] Definir telas básicas de UI (Login, Home e estrutura inicial do site)  
+
+**Objetivo da Sprint:**  
+Estabelecer a base do projeto, incluindo documentação, estrutura inicial do backend com Spring Boot e definição das primeiras telas da interface.
+
+---
+
+### 🚀 Sprint 2 – Evolução da Interface e Estrutura MVC
+
+- [] Incrementar e melhorar as telas e a interface de usuário (UI)  
+- [] Iniciar implementação da arquitetura MVC  
+- [] Criar os primeiros **Repositories** para acesso ao banco de dados  
+- [] Estruturar Controllers e Models iniciais  
+
+**Objetivo da Sprint:**  
+Começar a implementação da lógica da aplicação, organizando o backend com padrão MVC e evoluindo a interface do sistema.
+
+---
+
+## 📄 Licença
+
+Projeto acadêmico para fins educacionais.
+
+
+
 ## 📄 Licença
 
 Projeto acadêmico para fins educacionais.
