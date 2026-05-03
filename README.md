@@ -189,3 +189,11 @@ Projeto desenvolvido no Instituto Federal de Santa Catarina - Câmpus Gaspar
 ## 📄 Licença
 
 Projeto acadêmico para fins educacionais.
+
+---
+
+## Documentacao de apoio
+
+- [Checklist de lacunas](docs/01-checklist-de-gaps.md)
+- [Roadmap de desenvolvimento](docs/02-roadmap-de-desenvolvimento.md)
+- [Analise tecnica do projeto](docs/03-analise-tecnica-do-projeto.md)
