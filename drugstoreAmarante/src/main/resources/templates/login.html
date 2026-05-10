@@ -19,11 +19,9 @@
         <label class="field">
           <span>Email ou CPF</span>
           <input
-            type="text"
-            name="username"
-            placeholder="Email ou CPF"
-            th:field="*{username}"
-            autocomplete="username"
+            type="email"
+            name="email"
+            placeholder="Email"
             required
           />
         </label>
@@ -34,21 +32,21 @@
             type="password"
             name="password"
             placeholder="Senha"
-            th:field="*{password}"
-            autocomplete="current-password"
             required
           />
         </label>
 
-        <button class="btn-primary" type="submit">Entrar</button>
-
+        <button type="submit" class="btn-primary">Entrar</button>
+        <p th:if="${param.erro}" style="color:red;">
+          Email ou senha inválidos
+        </p>
         <div class="auth-links">
           <a href="#" class="link">Esqueci a senha</a>
         </div>
 
         <div class="auth-footer">
           <span>Nao tem conta?</span>
-          <a href="#" class="link">Cadastre-se</a>
+          <a href="cadastro" class="link">Cadastre-se</a>
         </div>
       </form>
     </section>
@@ -56,8 +54,10 @@
 
   <footer class="auth-site-footer">
     <div class="logo">
-      <span class="logo-mark" aria-hidden="true">DA</span>
-      <span class="logo-text">Drogaria <span>Amarante</span></span>
+      <a class="logo" th:href="@{/}">
+        <span class="logo-mark">DA</span>
+        <span class="logo-text">Drogaria <span>Amarante</span></span>
+      </a>
     </div>
   </footer>
 </body>

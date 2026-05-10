@@ -13,7 +13,7 @@
   </div>
 
   <header class="site-header" role="banner">
-    <div class="container header-grid">
+    <div class="container header-grid" href="/">
       <a class="logo" href="#" aria-label="DrogariaAmarante">
         <span class="logo-mark" aria-hidden="true">DA</span>
         <span class="logo-text">Drogaria<span>Amarante</span></span>
@@ -31,12 +31,19 @@
       </form>
 
       <div class="header-actions">
-        <button class="icon-btn" aria-label="Minha conta">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="8" r="4" />
-            <path d="M4 20c1.6-3.5 5-5 8-5s6.4 1.5 8 5" />
-          </svg>
-        </button>
+        <div th:if="${session.usuarioLogado == null}">
+          <a th:href="@{/login}">Entrar</a>
+        </div>
+
+        <div th:if="${session.usuarioLogado != null}">
+          <a th:href="@{/perfil}">Meu Perfil</a>
+        </div>
+<!--        <a th:href="@{/login}" class="icon-btn" aria-label="Minha conta">-->
+<!--          <svg viewBox="0 0 24 24" aria-hidden="true">-->
+<!--            <circle cx="12" cy="8" r="4" />-->
+<!--            <path d="M4 20c1.6-3.5 5-5 8-5s6.4 1.5 8 5" />-->
+<!--          </svg>-->
+<!--        </a>-->
         <button class="icon-btn" aria-label="Carrinho">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M6 7h13l-1.5 9H8L6 7Z" />
@@ -138,7 +145,7 @@
       </div>
     </section>
 
-    <section class="products" aria-labelledby="mais-comprados">
+    <section class="products" aria-labelledby="mais-comprados" href="/carrinho">
       <div class="container">
         <header class="section-header">
           <h2 id="mais-comprados">Mais comprados</h2>
@@ -158,7 +165,7 @@
               <h3 th:text="${produto.nome}">Nome do produto</h3>
               <p class="price" th:text="${produto.preco}">R$ 00,00</p>
             </div>
-            <button class="add-btn" type="button" aria-label="Adicionar ao carrinho">+</button>
+            <a class="add-btn" th:href="@{/carrinho}" aria-label="Adicionar ao carrinho">+</a>
           </article>
 
           <!-- Placeholder para estado sem produtos -->
