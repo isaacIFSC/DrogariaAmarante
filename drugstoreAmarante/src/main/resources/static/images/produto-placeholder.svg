@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-label="Produto placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f7fbf9"/>
+      <stop offset="100%" stop-color="#dcebe6"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#dfe7e4"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="240" rx="28" fill="url(#bg)"/>
+  <circle cx="240" cy="58" r="28" fill="#0a6b57" opacity="0.12"/>
+  <rect x="86" y="44" width="148" height="150" rx="26" fill="url(#accent)" stroke="#cddcd6" stroke-width="4"/>
+  <rect x="100" y="62" width="120" height="18" rx="9" fill="#0a6b57" opacity="0.18"/>
+  <rect x="115" y="92" width="90" height="84" rx="18" fill="#0a6b57" opacity="0.1"/>
+  <path d="M95 194h130" stroke="#0a6b57" stroke-width="8" stroke-linecap="round" opacity="0.16"/>
+  <text x="160" y="132" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#055447" font-weight="700">Produto</text>
+  <text x="160" y="158" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#6c7a74">Imagem ilustrativa</text>
+</svg>

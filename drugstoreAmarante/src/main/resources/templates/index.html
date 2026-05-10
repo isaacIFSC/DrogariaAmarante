@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DrogariaAmarante | Home</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <div class="topbar" role="banner">
+    <p>Oferta limitada: 10% OFF na primeira compra</p>
+  </div>
+
+  <header class="site-header" role="banner">
+    <div class="container header-grid">
+      <a class="logo" href="/" aria-label="DrogariaAmarante">
+        <span class="logo-mark" aria-hidden="true">DA</span>
+        <span class="logo-text">Drogaria<span>Amarante</span></span>
+      </a>
+
+      <form class="search" role="search" aria-label="Buscar produtos">
+        <label class="sr-only" for="campo-busca">Buscar</label>
+        <input id="campo-busca" type="search" placeholder="O que voce procura?" />
+        <button type="submit" class="icon-btn" aria-label="Pesquisar">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-3.5-3.5" />
+          </svg>
+        </button>
+      </form>
+
+      <div class="header-actions">
+        <a class="text-link" href="#">Entrar</a>
+        <button class="icon-btn" aria-label="Carrinho">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 7h13l-1.5 9H8L6 7Z" />
+            <circle cx="9" cy="20" r="1.5" />
+            <circle cx="17" cy="20" r="1.5" />
+            <path d="M4 4h2l1 3" />
+          </svg>
+          <span class="badge" aria-label="2 itens">2</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menu principal">
+    <div class="container menu-grid">
+      <button class="menu-item" type="button">
+        <span class="dot" aria-hidden="true"></span>
+        Envio via CEP
+      </button>
+      <button class="menu-item" type="button">
+        <span class="dot" aria-hidden="true"></span>
+        Todas as categorias
+      </button>
+      <button class="menu-item" type="button">
+        <span class="dot" aria-hidden="true"></span>
+        Mais buscados
+      </button>
+      <button class="menu-item" type="button">
+        <span class="dot" aria-hidden="true"></span>
+        Ofertas
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" aria-label="Banner promocional">
+      <div class="container">
+        <div class="slider">
+          <div class="slider-track">
+            <article class="slide is-active" role="group" aria-roledescription="slide" aria-label="1 de 3">
+              <div class="slide-content">
+                <p class="kicker">A nutricao ideal para o seu filho</p>
+                <h1>
+                  Com ate <strong>25%</strong>
+                  <span>de desconto</span>
+                </h1>
+                <button class="cta" type="button">Confira</button>
+              </div>
+              <div class="slide-visual" aria-hidden="true">
+                <div class="product-stack">
+                  <div class="jar jar-a"></div>
+                  <div class="jar jar-b"></div>
+                  <div class="jar jar-c"></div>
+                </div>
+              </div>
+            </article>
+
+            <article class="slide" role="group" aria-roledescription="slide" aria-label="2 de 3">
+              <div class="slide-content">
+                <p class="kicker">Saude e bem-estar</p>
+                <h1>
+                  Suplementos com
+                  <strong>frete gratis</strong>
+                  <span>acima de R$ 199</span>
+                </h1>
+                <button class="cta" type="button">Confira</button>
+              </div>
+              <div class="slide-visual" aria-hidden="true">
+                <div class="pill"></div>
+              </div>
+            </article>
+
+            <article class="slide" role="group" aria-roledescription="slide" aria-label="3 de 3">
+              <div class="slide-content">
+                <p class="kicker">Cuidado diario</p>
+                <h1>
+                  Kits de higiene
+                  <strong>combinados</strong>
+                  <span>por tempo limitado</span>
+                </h1>
+                <button class="cta" type="button">Confira</button>
+              </div>
+              <div class="slide-visual" aria-hidden="true">
+                <div class="spray"></div>
+              </div>
+            </article>
+          </div>
+
+          <div class="slider-dots" role="tablist" aria-label="Selecionar slide">
+            <button class="dot is-active" aria-label="Slide 1" role="tab" type="button"></button>
+            <button class="dot" aria-label="Slide 2" role="tab" type="button"></button>
+            <button class="dot" aria-label="Slide 3" role="tab" type="button"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="products" aria-labelledby="mais-comprados">
+      <div class="container">
+        <header class="section-header">
+          <h2 id="mais-comprados">Mais comprados</h2>
+          <p class="section-subtitle">Os produtos abaixo sao carregados automaticamente da API.</p>
+        </header>
+
+        <div class="products-status" id="products-status" aria-live="polite"></div>
+        <div class="products-grid" id="products-grid" aria-live="polite" aria-busy="true"></div>
+        <template id="product-card-template">
+          <article class="product-card">
+            <div class="product-image">
+              <img class="product-image-el" src="/images/produto-placeholder.svg" alt="" />
+            </div>
+            <div class="product-info">
+              <div class="product-meta">
+                <span class="product-badge category"></span>
+                <span class="product-badge brand"></span>
+              </div>
+              <h3 class="product-name"></h3>
+              <p class="product-description"></p>
+              <p class="price product-price"></p>
+            </div>
+            <button class="add-btn" type="button" aria-label="Adicionar ao carrinho">+</button>
+          </article>
+        </template>
+        <noscript>
+          <p class="products-fallback">Ative o JavaScript para carregar os produtos da API.</p>
+        </noscript>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>DrogariaAmarante 2026. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+  <script src="/js/home.js" defer></script>
+</body>
+</html>
