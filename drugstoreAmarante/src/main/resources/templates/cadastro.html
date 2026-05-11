@@ -1,37 +1,86 @@
 <!doctype html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8" />
-    <title>Cadastro</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>DrogariaAmarante | Cadastro</title>
+    <link rel="stylesheet" href="/css/styles.css"/>
 </head>
-<body>
+<body class="auth-page">
+<main class="auth-main" role="main">
+    <section class="auth-card" aria-label="Acesso a conta">
+        <header class="auth-header">
+            <h1>Cadastrar usuário</h1>
+        </header>
 
-<h1>Cadastrar usuário</h1>
+        <form th:action="@{/cadastro}" method="post" th:object="${user}">
+            <label class="field">
+                <span>CPF</span>
+                <input type="text" th:field="*{cpf}" required>
+            </label>
 
-<form th:action="@{/cadastro}" method="post" th:object="${user}">
+            <label class="field">
+                <span>Nome</span>
+                <input type="text" th:field="*{firstName}" required>
+            </label>
 
-    <input type="text" th:field="*{firstName}" placeholder="First Name" required>
+            <label class="field">
+                <span>Sobrenome</span>
+                <input type="text" th:field="*{lastName}" required>
+            </label>
 
-    <input type="text" th:field="*{lastName}" placeholder="Last Name" required>
+            <div class="row-fields">
+                <label class="field">
+                    <span>Data de Nascimento</span>
+                    <input type="date" th:field="*{birthDate}" required>
+                </label>
 
-    <input type="email" th:field="*{email}" placeholder="Email" required>
+                <label class="field">
+                    <span>Genero</span>
+                    <select th:field="*{gender}">
+                        <option value="">Selecione</option>
+                        <option value="FEMININO">Feminino</option>
+                        <option value="MASCULINO">Masculino</option>
+                        <option value="OUTRO">Outro</option>
+                    </select>
+                </label>
+            </div>
 
-    <input type="password" th:field="*{password}" placeholder="Password" required>
+            <label class="field">
+                <span>Telefone Celular</span>
+                <input type="text" th:field="*{phone}">
+            </label>
 
-    <input type="text" th:field="*{cpf}" placeholder="CPF" required>
+            <label class="field">
+                <span>Email</span>
+                <input type="email" th:field="*{email}" required>
+            </label>
 
-    <input type="text" th:field="*{gender}" placeholder="Gender">
+            <label class="field">
+                <span>Senha</span>
+                <input type="password" th:field="*{password}" required>
+            </label>
 
-    <input type="text" th:field="*{phone}" placeholder="Phone">
+            <button type="submit" class="btn-primary">Cadastrar</button>
 
-    <input type="date" th:field="*{birthDate}" required>
+            <p th:if="${param.erro}" style="color:red;">
+                Erro
+            </p>
 
+            <div class="auth-footer">
+                <a th:href="@{/login}" class="link">Voltar para login</a>
+            </div>
+        </form>
+    </section>
+</main>
 
-    <button type="submit">Cadastrar</button>
-
-</form>
-
-<a th:href="@{/login}">Voltar para login</a>
-
+<footer class="auth-site-footer">
+    <div class="logo">
+        <a class="logo" th:href="@{/}">
+            <span class="logo-mark">DA</span>
+            <span class="logo-text">Drogaria <span>Amarante</span></span>
+        </a>
+    </div>
+</footer>
 </body>
 </html>

@@ -32,11 +32,21 @@
 
       <div class="header-actions">
         <div th:if="${session.usuarioLogado == null}">
-          <a th:href="@{/login}">Entrar</a>
+          <a th:href="@{/login}" class="icon-btn" aria-label="Minha conta">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c1.6-3.5 5-5 8-5s6.4 1.5 8 5" />
+            </svg>
+          </a>
         </div>
 
         <div th:if="${session.usuarioLogado != null}">
-          <a th:href="@{/perfil}">Meu Perfil</a>
+          <a th:href="@{/perfil}" class="icon-btn" aria-label="Minha conta">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c1.6-3.5 5-5 8-5s6.4 1.5 8 5" />
+            </svg>
+          </a>
         </div>
 <!--        <a th:href="@{/login}" class="icon-btn" aria-label="Minha conta">-->
 <!--          <svg viewBox="0 0 24 24" aria-hidden="true">-->

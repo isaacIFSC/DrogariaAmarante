@@ -1,20 +1,154 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Perfil</title>
+    <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
 
-<h1>Meu Perfil</h1>
+<div class="topbar" role="banner">
+    <p>Oferta limitada: 10% OFF na primeira compra • 25:15:00</p>
+</div>
 
-<p>Nome: <span th:text="${user.firstName}"></span></p>
-<p>Sobrenome: <span th:text="${user.lastName}"></span></p>
-<p>Email: <span th:text="${user.email}"></span></p>
-<p>CPF: <span th:text="${user.cpf}"></span></p>
-<p>Telefone: <span th:text="${user.phone}"></span></p>
-<p>Data de nascimento: <span th:text="${user.birthDate}"></span></p>
+<header class="site-header" role="banner">
+    <div class="container header-grid" href="/">
+        <a class="logo" th:href="@{/}" aria-label="DrogariaAmarante">
+            <span class="logo-mark" aria-hidden="true">DA</span>
+            <span class="logo-text">Drogaria<span>Amarante</span></span>
+        </a>
 
-<a th:href="@{/logout}">Sair</a>
+        <form class="search" role="search" aria-label="Buscar produtos">
+            <label class="sr-only" for="campo-busca">Buscar</label>
+            <input id="campo-busca" type="search" placeholder="O que você procura?" />
+            <button type="submit" class="icon-btn" aria-label="Pesquisar">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="M20 20l-3.5-3.5" />
+                </svg>
+            </button>
+        </form>
+
+        <div class="header-actions">
+            <div th:if="${session.usuarioLogado == null}">
+                <a th:href="@{/login}" class="icon-btn" aria-label="Minha conta">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 20c1.6-3.5 5-5 8-5s6.4 1.5 8 5" />
+                    </svg>
+                </a>
+            </div>
+
+            <div th:if="${session.usuarioLogado != null}">
+                <a th:href="@{/perfil}" class="icon-btn" aria-label="Minha conta">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 20c1.6-3.5 5-5 8-5s6.4 1.5 8 5" />
+                    </svg>
+                </a>
+            </div>
+            <button class="icon-btn" aria-label="Carrinho">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M6 7h13l-1.5 9H8L6 7Z" />
+                    <circle cx="9" cy="20" r="1.5" />
+                    <circle cx="17" cy="20" r="1.5" />
+                    <path d="M4 4h2l1 3" />
+                </svg>
+                <span class="badge" aria-label="2 itens">2</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<nav class="menu" aria-label="Menu principal">
+    <div class="container menu-grid">
+        <button class="menu-item">
+            <span class="dot" aria-hidden="true"></span>
+            Envio via CEP
+        </button>
+        <button class="menu-item">
+            <span class="dot" aria-hidden="true"></span>
+            Todas as categorias
+        </button>
+        <button class="menu-item">
+            <span class="dot" aria-hidden="true"></span>
+            Mais buscados
+        </button>
+        <button class="menu-item">
+            <span class="dot" aria-hidden="true"></span>
+            Ofertas
+        </button>
+    </div>
+</nav>
+<div class="container">
+    <div class="breadcrumb">
+        <a th:href="@{/}">Página Inicial</a>
+        <span>›</span>
+
+        <span>Meu Perfil</span>
+    </div>
+</div>
+
+<body class="auth-page">
+<main class="auth-main" role="main">
+
+    <section class="profile-card">
+
+        <div class="profile-header">
+            <div>
+                <h1>Meu Perfil</h1>
+                <p>Informações da sua conta</p>
+            </div>
+        </div>
+
+        <div class="profile-info">
+
+            <div class="profile-item">
+                <span class="label">Nome</span>
+                <span th:text="${user.firstName}"></span>
+            </div>
+
+            <div class="profile-item">
+                <span class="label">Sobrenome</span>
+                <span th:text="${user.lastName}"></span>
+            </div>
+
+            <div class="profile-item">
+                <span class="label">Email</span>
+                <span th:text="${user.email}"></span>
+            </div>
+
+            <div class="profile-item">
+                <span class="label">CPF</span>
+                <span th:text="${user.cpf}"></span>
+            </div>
+
+            <div class="profile-item">
+                <span class="label">Telefone</span>
+                <span th:text="${user.phone}"></span>
+            </div>
+
+            <div class="profile-item">
+                <span class="label">Data de nascimento</span>
+                <span th:text="${user.birthDate}"></span>
+            </div>
+
+        </div>
+
+        <a th:href="@{/logout}" class="btn-logout">
+            Sair da conta
+        </a>
+
+    </section>
+
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>DrogariaAmarante © 2026. Todos os direitos reservados.</p>
+    </div>
+</footer>
 
 </body>
 </html>

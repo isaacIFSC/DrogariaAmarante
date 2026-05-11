@@ -8,11 +8,16 @@
   --brand-gray: #e6e6e6;
   --text: #1b1f1d;
   --muted: #6c7a74;
-  --white: #ffffff;
   --shadow: 0 10px 24px rgba(12, 45, 38, 0.12);
   --radius-lg: 28px;
   --radius-md: 16px;
   --radius-sm: 12px;
+
+  --background: #EFEEEF;
+  --white: #ffffff;
+  --dark-green: #005E4C;
+  --dark-red: #980A22;
+  --text-color: #46494F;
 }
 
 * {
@@ -93,7 +98,7 @@ a {
   width: 44px;
   height: 44px;
   border-radius: 14px;
-  background: var(--brand-green);
+  background: var(--dark-red);
   color: var(--white);
   display: grid;
   place-items: center;
@@ -106,7 +111,7 @@ a {
 }
 
 .logo-text span {
-  color: var(--brand-green);
+  color: var(--dark-red);
 }
 
 .search {
@@ -142,7 +147,7 @@ a {
 .icon-btn svg {
   width: 20px;
   height: 20px;
-  stroke: var(--brand-green-dark);
+  stroke: var(--dark-red);
   stroke-width: 2;
   fill: none;
 }
@@ -166,8 +171,7 @@ a {
 }
 
 .menu {
-  background: #f6f7f7;
-  border-bottom: 1px solid #edf0ef;
+  background: var(--white);
 }
 
 .menu-grid {
@@ -487,6 +491,10 @@ a {
   display: grid;
   gap: 1rem;
 }
+form {
+  display: grid;
+  gap: 1rem;
+}
 
 .field {
   display: grid;
@@ -496,6 +504,7 @@ a {
 }
 
 .field input {
+  width: 100%;
   border: 1px solid #d7ddda;
   border-radius: 999px;
   padding: 0.7rem 1rem;
@@ -509,7 +518,24 @@ a {
   box-shadow: 0 0 0 3px rgba(10, 107, 87, 0.12);
 }
 
+.field select {
+  width: 100%;
+  border: 1px solid #d7ddda;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  outline: none;
+  background: var(--white);
+  color: var(--text);
+}
+
+.field select:focus {
+  border-color: var(--brand-green);
+  box-shadow: 0 0 0 3px rgba(10, 107, 87, 0.12);
+}
+
 .btn-primary {
+  width: 100%;
   border: none;
   background: var(--brand-green-dark);
   color: var(--white);
@@ -722,4 +748,133 @@ a {
   .cart-qty {
     width: fit-content;
   }
+}
+
+.row-fields {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.row-fields .field {
+  flex: 1;
+  min-width: 0;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+.breadcrumb a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.breadcrumb span {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+.profile-card {
+  width: min(900px, 92vw);
+
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+
+  padding: 2.5rem;
+
+  display: grid;
+  gap: 2rem;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.profile-header h1 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.profile-header p {
+  margin: 0.3rem 0 0;
+  color: var(--muted);
+}
+
+.profile-avatar {
+  width: 72px;
+  height: 72px;
+
+  border-radius: 50%;
+
+  background: var(--brand-green);
+  color: var(--white);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.profile-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.profile-item {
+  background: #f7f9f8;
+
+  border: 1px solid #e5ece9;
+  border-radius: var(--radius-md);
+
+  padding: 1rem 1.2rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.profile-item .label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.btn-logout {
+  width: 100%;
+
+  background: var(--dark-red);
+  color: var(--white);
+
+  text-align: center;
+
+  padding: 0.9rem 1rem;
+
+  border-radius: 999px;
+
+  font-weight: 600;
+
+  transition: 0.2s ease;
+}
+
+.btn-logout:hover {
+  opacity: 0.9;
 }
