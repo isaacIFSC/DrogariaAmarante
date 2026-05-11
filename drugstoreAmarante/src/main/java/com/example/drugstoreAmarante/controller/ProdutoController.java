@@ -25,11 +25,14 @@ public class ProdutoController {
     @GetMapping
     public List<ProdutoResponse> listar(
         @RequestParam(required = false) String q,
+        @RequestParam(required = false) String categoria,
+        @RequestParam(required = false) String marca,
         @RequestParam(required = false) BigDecimal minPreco,
         @RequestParam(required = false) BigDecimal maxPreco,
-        @RequestParam(required = false) Integer estoqueMinimo
+        @RequestParam(required = false) Boolean disponivel,
+        @RequestParam(required = false) String ordenacao
     ) {
-        return produtoService.listar(q, minPreco, maxPreco, estoqueMinimo);
+        return produtoService.listar(q, categoria, marca, minPreco, maxPreco, disponivel, ordenacao);
     }
 
     @GetMapping("/{id}")

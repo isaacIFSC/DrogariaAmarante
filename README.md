@@ -197,3 +197,13 @@ Projeto acadêmico para fins educacionais.
 - [Checklist de lacunas](docs/01-checklist-de-gaps.md)
 - [Roadmap de desenvolvimento](docs/02-roadmap-de-desenvolvimento.md)
 - [Analise tecnica do projeto](docs/03-analise-tecnica-do-projeto.md)
+
+## Docker
+
+Subir a aplicação com SQL Server:
+
+```bash
+docker compose -f drugstoreAmarante/docker-compose.yml up --build
+```
+
+A aplicação ficará disponível em `http://localhost:8080` e o banco em `localhost:1433`.
