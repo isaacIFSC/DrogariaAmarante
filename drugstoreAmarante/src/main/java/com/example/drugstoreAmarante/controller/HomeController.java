@@ -1,42 +1,39 @@
 package com.example.drugstoreAmarante.controller;
 
-import java.util.List;
-import java.util.Map;
+import com.example.drugstoreAmarante.dto.ProdutoResponse;
+import com.example.drugstoreAmarante.service.ProdutoService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 @Controller
 public class HomeController {
 
+    private final ProdutoService produtoService;
+
+    public HomeController(ProdutoService produtoService) {
+        this.produtoService = produtoService;
+    }
+
     @GetMapping("/")
-    public String home(Model model) {
-        // Mock simples para visualizar o template
-        List<Map<String, String>> produtos = List.of(
-            Map.of(
-                "nome", "Vitamina C 500mg",
-                "preco", "R$ 29,90",
-                "imagemUrl", "/images/produto-placeholder.png"
-            ),
-            Map.of(
-                "nome", "Shampoo Anticaspa",
-                "preco", "R$ 19,90",
-                "imagemUrl", "/images/produto-placeholder.png"
-            ),
-            Map.of(
-                "nome", "Protetor Solar FPS 50",
-                "preco", "R$ 49,90",
-                "imagemUrl", "/images/produto-placeholder.png"
-            ),
-            Map.of(
-                "nome", "Colageno Hidrolisado",
-                "preco", "R$ 39,90",
-                "imagemUrl", "/images/produto-placeholder.png"
-            )
+    public String index(Model model) {
+
+        List<ProdutoResponse> produtos = List.of(
+                new ProdutoResponse(
+                        1L,
+                        "Vitamina C 500mg",
+                        new BigDecimal("29.90"),
+                        "/img/img_produto.png",
+                        10
+                )
         );
 
         model.addAttribute("produtos", produtos);
+
         return "index";
     }
 }

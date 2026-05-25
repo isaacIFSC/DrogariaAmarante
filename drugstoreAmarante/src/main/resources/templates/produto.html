@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Produto</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/styles.css"/>
+</head>
+<body>
+
+<div class="topbar" role="banner">
+    <p>Oferta limitada: 10% OFF na primeira compra • 25:15:00</p>
+</div>
+
+<header class="site-header" role="banner">
+    <div class="container header-grid" href="/">
+        <a class="logo" th:href="@{/}" aria-label="DrogariaAmarante">
+            <span class="logo-mark" aria-hidden="true">DA</span>
+            <span class="logo-text">Drogaria<span>Amarante</span></span>
+        </a>
+
+        <form class="search" role="search" aria-label="Buscar produtos">
+            <label class="sr-only" for="campo-busca">Buscar</label>
+            <input id="campo-busca" type="search" placeholder="O que você procura?" />
+            <button type="submit" class="icon-btn" aria-label="Pesquisar">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7" />
+                    <path d="M20 20l-3.5-3.5" />
+                </svg>
+            </button>
+        </form>
+
+        <div class="header-actions">
+            <div th:if="${session.usuarioLogado == null}">
+                <a th:href="@{/login}" class="icon-btn" aria-label="Minha conta">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 20c1.6-3.5 5-5 8-5s6.4 1.5 8 5" />
+                    </svg>
+                </a>
+            </div>
+
+            <div th:if="${session.usuarioLogado != null}">
+                <a th:href="@{/perfil}" class="icon-btn" aria-label="Minha conta">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 20c1.6-3.5 5-5 8-5s6.4 1.5 8 5" />
+                    </svg>
+                </a>
+            </div>
+            <button class="icon-btn" aria-label="Carrinho">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M6 7h13l-1.5 9H8L6 7Z" />
+                    <circle cx="9" cy="20" r="1.5" />
+                    <circle cx="17" cy="20" r="1.5" />
+                    <path d="M4 4h2l1 3" />
+                </svg>
+                <span class="badge" aria-label="2 itens">2</span>
+            </button>
+        </div>
+    </div>
+</header>
+<nav class="menu" aria-label="Menu principal">
+    <div class="container menu-grid">
+        <button class="menu-item">
+            <span class="dot" aria-hidden="true"></span>
+            Envio via CEP
+        </button>
+        <button class="menu-item">
+            <span class="dot" aria-hidden="true"></span>
+            Todas as categorias
+        </button>
+        <button class="menu-item">
+            <span class="dot" aria-hidden="true"></span>
+            Mais buscados
+        </button>
+        <button class="menu-item">
+            <span class="dot" aria-hidden="true"></span>
+            Ofertas
+        </button>
+    </div>
+</nav>
+<div class="container">
+    <div class="breadcrumb">
+        <a th:href="@{/}">Página Inicial</a>
+        <span>›</span>
+
+        <span>Produto</span>
+    </div>
+</div>
+
+<main class="product-page">
+
+    <section class="product-container row-fields">
+
+        <!-- IMAGEM -->
+        <div class="product-image">
+            <img th:src="@{${produto.imagemUrl()}}" alt="Produto">
+        </div>
+
+        <!-- INFORMAÇÕES -->
+        <div class="product-info">
+
+            <h1 th:text="${produto.nome()}"></h1>
+            <div class="stars">
+                ★★★★★
+            </div>
+
+            <p class="subtitle">
+                Mauris luctus
+            </p>
+
+            <p class="description">
+                Sed nec enim tristique nulla sodales
+            </p>
+
+            <ul>
+                <li>In mattis orci vel congue gravida.</li>
+                <li>Etiam sed nibh eu nunc molestie tincidunt.</li>
+                <li>Praesent nec leo nisl aliquet vestibulum.</li>
+                <li>Quisque aliquet risus id odio ornare commodo.</li>
+                <li>In mattis orci vel congue gravida.</li>
+                <li>Etiam sed nibh eu nunc molestie tincidunt.</li>
+                <li>Praesent nec leo nisl aliquet vestibulum.</li>
+            </ul>
+
+        </div>
+
+        <!-- CARD DE COMPRA -->
+        <aside class="purchase-box">
+
+            <div class="top-card">
+
+                <div>
+                    <h2 class="product-price">R$ 00,00</h2>
+
+                    <p class="unit-price">
+                        R$ 0,00 por unidade
+                    </p>
+
+                    <p class="installments">
+                        Em até 3x de R$ 0,00 sem juros
+                    </p>
+
+                </div>
+
+                <div class="quantity-control">
+                    <button class="quantity-btn quantity-btn.minus">-</button>
+                    <span class="quantity-value">1</span>
+                    <button class="quantity-btn quantity-btn.plus">+</button>
+                </div>
+
+            </div>
+
+            <button class="buy-btn buy-button">
+                Comprar
+            </button>
+
+            <!-- ENTREGA -->
+            <section class="shipping">
+
+                <h3>Consultar formas de entrega</h3>
+
+                <label>Insira seu CEP</label>
+
+                <div class="shipping-box">
+                    <input type="text" placeholder="">
+                </div>
+
+            </section>
+        </aside>
+
+    </section>
+
+</main>
+
+</body>
+</html>

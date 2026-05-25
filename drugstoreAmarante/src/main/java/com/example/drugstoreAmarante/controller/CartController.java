@@ -18,14 +18,14 @@ public class CartController {
                 "precoUnitario", "R$ 29,90",
                 "quantidade", 1,
                 "total", "R$ 29,90",
-                "imagemUrl", "/images/produto-placeholder.png"
+                "imagemUrl", "/img/img_produto.png"
             ),
             Map.of(
                 "nome", "Protetor Solar FPS 50",
                 "precoUnitario", "R$ 49,90",
                 "quantidade", 2,
                 "total", "R$ 99,80",
-                "imagemUrl", "/images/produto-placeholder.png"
+                "imagemUrl", "/img/img_produto.png"
             )
         );
 

@@ -163,32 +163,29 @@
 
         <div class="products-grid">
           <!-- Cards renderizados via Thymeleaf -->
-          <article class="product-card" th:each="produto : ${produtos}">
-            <div class="product-image">
-              <img
-                th:src="${produto.imagemUrl}"
-                src="/images/produto-placeholder.png"
-                alt="Imagem do produto"
-              />
-            </div>
-            <div class="product-info">
-              <h3 th:text="${produto.nome}">Nome do produto</h3>
-              <p class="price" th:text="${produto.preco}">R$ 00,00</p>
-            </div>
-            <a class="add-btn" th:href="@{/carrinho}" aria-label="Adicionar ao carrinho">+</a>
-          </article>
+          <a
+                  class="product-card-link"
+                  th:each="produto : ${produtos}"
+                  th:href="@{/produto/{id}(id=${produto.id})}"
+          >
+            <article class="product-card">
 
-          <!-- Placeholder para estado sem produtos -->
-          <article class="product-card" th:if="${#lists.isEmpty(produtos)}">
-            <div class="product-image">
-              <span class="placeholder">Sem produtos cadastrados</span>
-            </div>
-            <div class="product-info">
-              <h3>Exemplo de produto</h3>
-              <p class="price">R$ 00,00</p>
-            </div>
-            <button class="add-btn" type="button" aria-label="Adicionar ao carrinho">+</button>
-          </article>
+              <div class="product-image">
+                <img
+                        th:src="@{${produto.imagemUrl()}}"
+                        alt="Imagem do produto"
+                />
+              </div>
+
+              <div class="product-info">
+                <h3 th:text="${produto.nome}">Nome do produto</h3>
+                <p class="price" th:text="${produto.preco}">R$ 00,00</p>
+              </div>
+
+              <button class="add-btn" type="button">+</button>
+
+            </article>
+          </a>
         </div>
       </div>
     </section>
