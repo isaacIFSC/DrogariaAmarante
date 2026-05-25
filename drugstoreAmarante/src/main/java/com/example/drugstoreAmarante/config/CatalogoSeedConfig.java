@@ -28,13 +28,13 @@ public class CatalogoSeedConfig {
                 return;
             }
 
-            Categoria higiene = categoriaRepository.save(new Categoria("Higiene"));
-            Categoria beleza = categoriaRepository.save(new Categoria("Beleza"));
-            Categoria saude = categoriaRepository.save(new Categoria("Saude"));
+            Categoria higiene = obterOuCriarCategoria(categoriaRepository, "Higiene");
+            Categoria beleza = obterOuCriarCategoria(categoriaRepository, "Beleza");
+            Categoria saude = obterOuCriarCategoria(categoriaRepository, "Saude");
 
-            Marca colgate = marcaRepository.save(new Marca("Colgate"));
-            Marca nivea = marcaRepository.save(new Marca("Nivea"));
-            Marca omron = marcaRepository.save(new Marca("Omron"));
+            Marca colgate = obterOuCriarMarca(marcaRepository, "Colgate");
+            Marca nivea = obterOuCriarMarca(marcaRepository, "Nivea");
+            Marca omron = obterOuCriarMarca(marcaRepository, "Omron");
 
             List<Produto> produtos = List.of(
                 new Produto(
@@ -86,5 +86,15 @@ public class CatalogoSeedConfig {
 
             produtoRepository.saveAll(produtos);
         };
+    }
+
+    private Categoria obterOuCriarCategoria(CategoriaRepository categoriaRepository, String nome) {
+        return categoriaRepository.findByNomeIgnoreCase(nome)
+            .orElseGet(() -> categoriaRepository.save(new Categoria(nome)));
+    }
+
+    private Marca obterOuCriarMarca(MarcaRepository marcaRepository, String nome) {
+        return marcaRepository.findByNomeIgnoreCase(nome)
+            .orElseGet(() -> marcaRepository.save(new Marca(nome)));
     }
 }

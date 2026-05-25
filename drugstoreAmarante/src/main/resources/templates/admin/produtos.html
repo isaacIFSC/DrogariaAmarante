@@ -36,8 +36,8 @@
         </div>
         <div class="admin-hero__panel">
           <p class="panel-label">Campos aceitos no CSV</p>
-          <code>nome;descricao;preco;imagemUrl;estoque;categoria;marca</code>
-          <p class="panel-note">O separador preferido é ponto e virgula. Se a imagem ficar em branco, usamos o placeholder automaticamente.</p>
+          <code>codigo;descricao;ncm;icms;unidade;qtd;vlrUnit;vlrTotal</code>
+          <p class="panel-note">Envie o relatorio de estoque com ponto e virgula. O sistema usa descricao, quantidade e valor unitario para montar os produtos automaticamente.</p>
         </div>
       </div>
     </section>
@@ -65,7 +65,7 @@
                 <select name="categoria" id="categoria-select" required></select>
               </label>
               <label>
-                <span>Preço</span>
+                <span>Preco</span>
                 <input name="preco" type="number" step="0.01" min="0" placeholder="19.90" required />
               </label>
               <label>
@@ -91,22 +91,22 @@
 
         <aside class="admin-card" id="importacao-csv">
           <div class="card-heading">
-            <h2>Importar CSV</h2>
-            <p>Envie um arquivo com varias linhas para criar varios produtos de uma vez.</p>
+            <h2>Importar relatorio CSV</h2>
+            <p>Envie o relatorio exportado da farmacia para criar varios produtos de uma vez.</p>
           </div>
 
           <form id="csv-form" class="admin-form admin-form--compact">
             <label class="upload-zone">
               <span>Arquivo CSV</span>
               <input id="csv-file" name="arquivo" type="file" accept=".csv,text/csv" required />
-              <small>Cabecalho esperado: nome;descricao;preco;imagemUrl;estoque;categoria;marca</small>
+              <small>Cabecalho esperado: codigo;descricao;ncm;icms;unidade;qtd;vlrUnit;vlrTotal</small>
             </label>
 
             <div class="sample-box">
               <strong>Exemplo rapido</strong>
-              <pre>nome;descricao;preco;imagemUrl;estoque;categoria;marca
-Shampoo Hidratante;Limpeza suave para uso diario;29.90;;20;Higiene;Nivea
-Vitamina C;Suporte diario para a imunidade;49.90;;12;Saude;Generic</pre>
+              <pre>codigo;descricao;ncm;icms;unidade;qtd;vlrUnit;vlrTotal
+24918;FRALDA MILI BABY JUMBINHO M;96190000;17,00;UN;6;14,3800;86,28
+25294;ABAIXADOR LINGUA 50 UN;44219100;17,00;UN;50;0,1300;6,50</pre>
             </div>
 
             <div class="form-actions">

@@ -7,10 +7,11 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashMap;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,72 @@ import com.example.drugstoreAmarante.repository.ProdutoRepository;
 public class ProdutoAdminService {
 
     private static final String IMAGEM_PADRAO = "/images/produto-placeholder.svg";
+    private static final String CATEGORIA_PADRAO_IMPORTACAO = "Higiene";
+    private static final String MARCA_PADRAO_IMPORTACAO = "Importado";
+    private static final Set<String> PALAVRAS_BRAND_LIVRES = Set.of(
+        "FRALDA",
+        "AB",
+        "ABS",
+        "ABAIXADOR",
+        "ALGODAO",
+        "ALGOD",
+        "ESCOVA",
+        "LENCO",
+        "SABONETE",
+        "SHAMPOO",
+        "CONDICIONADOR",
+        "CREME",
+        "DESODORANTE",
+        "LOCAO",
+        "PERFUME",
+        "HIDRATANTE",
+        "HIDRATACAO",
+        "TALCO",
+        "PAPEL",
+        "SERINGA"
+    );
+    private static final Set<String> PALAVRAS_CATEGORIA_BELEZA = Set.of(
+        "SHAMPOO",
+        "CONDICIONADOR",
+        "CREME",
+        "DESOD",
+        "DESODOR",
+        "DESODORANTE",
+        "PERFUME",
+        "LOCAO",
+        "HIDRAT",
+        "HIDRATANTE",
+        "SABONETE",
+        "CABELO",
+        "CABELOS",
+        "TINTURA",
+        "MAQUIAGEM",
+        "BARBA"
+    );
+    private static final Set<String> PALAVRAS_CATEGORIA_SAUDE = Set.of(
+        "AAS",
+        "CPR",
+        "COMP",
+        "COMPRIM",
+        "CORT",
+        "SUSP",
+        "SOLUCAO",
+        "XAROPE",
+        "AMPOLA",
+        "POMADA",
+        "GEL",
+        "SPRAY",
+        "VIT",
+        "VITAMINA",
+        "PRESSAO",
+        "MONITOR",
+        "TERMOMETRO",
+        "ANTIBIOT",
+        "ANALGES",
+        "MEDIC",
+        "COLIR",
+        "ORAL"
+    );
 
     private final ProdutoRepository produtoRepository;
     private final CategoriaRepository categoriaRepository;
@@ -86,7 +153,8 @@ public class ProdutoAdminService {
             char delimiter = descobrirDelimitador(headerLine);
             List<String> cabecalho = parseCsvLine(headerLine, delimiter);
             Map<String, Integer> colunas = mapearCabecalho(cabecalho);
-            validarCabecalho(colunas);
+            TipoImportacao tipoImportacao = detectarTipoImportacao(colunas);
+            validarCabecalho(colunas, tipoImportacao);
 
             String line;
             int numeroLinha = 1;
@@ -99,15 +167,9 @@ public class ProdutoAdminService {
                 linhasLidas += 1;
                 try {
                     List<String> campos = parseCsvLine(line, delimiter);
-                    ProdutoCadastroRequest request = new ProdutoCadastroRequest(
-                        valorCampo(campos, colunas, "nome"),
-                        valorCampo(campos, colunas, "descricao"),
-                        parsePreco(valorCampo(campos, colunas, "preco")),
-                        valorCampo(campos, colunas, "imagemurl"),
-                        parseInteiro(valorCampo(campos, colunas, "estoque")),
-                        valorCampo(campos, colunas, "categoria"),
-                        valorCampo(campos, colunas, "marca")
-                    );
+                    ProdutoCadastroRequest request = tipoImportacao == TipoImportacao.RELATORIO
+                        ? requestDoRelatorio(campos, colunas)
+                        : requestPadrao(campos, colunas);
                     cadastrar(request);
                     produtosCriados += 1;
                 } catch (RuntimeException ex) {
@@ -141,6 +203,81 @@ public class ProdutoAdminService {
             produto.getCategoria().getNome(),
             produto.getMarca().getNome()
         );
+    }
+
+    private ProdutoCadastroRequest requestPadrao(List<String> campos, Map<String, Integer> colunas) {
+        return new ProdutoCadastroRequest(
+            valorCampo(campos, colunas, "nome"),
+            valorCampo(campos, colunas, "descricao"),
+            parsePreco(valorCampo(campos, colunas, "preco")),
+            valorCampo(campos, colunas, "imagemurl"),
+            parseInteiro(valorCampo(campos, colunas, "estoque")),
+            valorCampo(campos, colunas, "categoria"),
+            valorCampo(campos, colunas, "marca")
+        );
+    }
+
+    private ProdutoCadastroRequest requestDoRelatorio(List<String> campos, Map<String, Integer> colunas) {
+        String codigo = valorCampo(campos, colunas, "codigo");
+        String descricaoOriginal = limparDescricaoRelatorio(valorCampo(campos, colunas, "descricao"));
+        String nome = estaVazio(descricaoOriginal) ? "Produto " + limparTexto(codigo) : descricaoOriginal;
+        String descricao = construirDescricaoRelatorio(campos, colunas, codigo, descricaoOriginal);
+        BigDecimal preco = parsePreco(valorCampo(campos, colunas, "vlrunit"));
+        Integer estoque = parseInteiro(valorCampo(campos, colunas, "qtd"));
+        String categoria = inferirCategoriaRelatorio(descricaoOriginal);
+        String marca = inferirMarcaRelatorio(descricaoOriginal);
+
+        return new ProdutoCadastroRequest(
+            nome,
+            descricao,
+            preco,
+            null,
+            estoque,
+            categoria,
+            marca
+        );
+    }
+
+    private String construirDescricaoRelatorio(
+        List<String> campos,
+        Map<String, Integer> colunas,
+        String codigo,
+        String descricaoOriginal
+    ) {
+        String ncm = valorCampo(campos, colunas, "ncm");
+        String icms = valorCampo(campos, colunas, "icms");
+        String unidade = valorCampo(campos, colunas, "unidade");
+        String quantidade = valorCampo(campos, colunas, "qtd");
+        String valorUnitario = valorCampo(campos, colunas, "vlrunit");
+        String valorTotal = valorCampo(campos, colunas, "vlrtotal");
+
+        List<String> partes = new ArrayList<>();
+        if (!estaVazio(codigo)) {
+            partes.add("Codigo: " + limparTexto(codigo));
+        }
+        if (!estaVazio(descricaoOriginal)) {
+            partes.add("Descricao original: " + descricaoOriginal);
+        }
+        if (!estaVazio(ncm)) {
+            partes.add("NCM: " + limparTexto(ncm));
+        }
+        if (!estaVazio(icms)) {
+            partes.add("ICMS: " + limparTexto(icms));
+        }
+        if (!estaVazio(unidade)) {
+            partes.add("Unidade: " + limparTexto(unidade));
+        }
+        if (!estaVazio(quantidade)) {
+            partes.add("Quantidade: " + limparTexto(quantidade));
+        }
+        if (!estaVazio(valorUnitario)) {
+            partes.add("Vlr unit: " + limparTexto(valorUnitario));
+        }
+        if (!estaVazio(valorTotal)) {
+            partes.add("Vlr total: " + limparTexto(valorTotal));
+        }
+
+        return String.join(" | ", partes);
     }
 
     private void validarRequest(ProdutoCadastroRequest request) {
@@ -212,8 +349,8 @@ public class ProdutoAdminService {
         }
 
         try {
-            return Integer.parseInt(valor.trim());
-        } catch (NumberFormatException ex) {
+            return new BigDecimal(valor.trim().replace(',', '.')).intValueExact();
+        } catch (ArithmeticException | NumberFormatException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Estoque invalido: " + valor, ex);
         }
     }
@@ -232,13 +369,26 @@ public class ProdutoAdminService {
         return colunas;
     }
 
-    private void validarCabecalho(Map<String, Integer> colunas) {
-        List<String> obrigatorias = List.of("nome", "descricao", "preco", "estoque", "categoria", "marca");
+    private void validarCabecalho(Map<String, Integer> colunas, TipoImportacao tipoImportacao) {
+        List<String> obrigatorias = tipoImportacao == TipoImportacao.RELATORIO
+            ? List.of("codigo", "descricao", "ncm", "icms", "unidade", "qtd", "vlrunit", "vlrtotal")
+            : List.of("nome", "descricao", "preco", "estoque", "categoria", "marca");
+
         for (String coluna : obrigatorias) {
             if (!colunas.containsKey(coluna)) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cabecalho CSV precisa conter a coluna: " + coluna);
             }
         }
+    }
+
+    private TipoImportacao detectarTipoImportacao(Map<String, Integer> colunas) {
+        if (colunas.containsKey("codigo")
+            && colunas.containsKey("qtd")
+            && colunas.containsKey("vlrunit")
+            && colunas.containsKey("vlrtotal")) {
+            return TipoImportacao.RELATORIO;
+        }
+        return TipoImportacao.CADASTRO;
     }
 
     private String valorCampo(List<String> campos, Map<String, Integer> colunas, String coluna) {
@@ -283,5 +433,70 @@ public class ProdutoAdminService {
         String semAcentos = Normalizer.normalize(valor == null ? "" : valor, Normalizer.Form.NFD)
             .replaceAll("\\p{M}", "");
         return semAcentos.toLowerCase(Locale.ROOT).replaceAll("[^a-z0-9]", "");
+    }
+
+    private String limparDescricaoRelatorio(String valor) {
+        String texto = limparTexto(valor);
+        if (estaVazio(texto)) {
+            return texto;
+        }
+
+        return texto
+            .replaceAll("^[\\p{Punct}\\s]+", "")
+            .replaceAll("\\s+", " ")
+            .trim();
+    }
+
+    private String inferirCategoriaRelatorio(String descricao) {
+        String chave = normalizarChaveBusca(descricao);
+
+        if (contendoAlgumaPalavra(chave, PALAVRAS_CATEGORIA_BELEZA)) {
+            return "Beleza";
+        }
+        if (contendoAlgumaPalavra(chave, PALAVRAS_CATEGORIA_SAUDE)) {
+            return "Saude";
+        }
+        return CATEGORIA_PADRAO_IMPORTACAO;
+    }
+
+    private String inferirMarcaRelatorio(String descricao) {
+        String texto = limparDescricaoRelatorio(descricao);
+        if (estaVazio(texto)) {
+            return MARCA_PADRAO_IMPORTACAO;
+        }
+
+        for (String token : texto.split("\\s+")) {
+            String normalizado = token
+                .replaceAll("^[\\p{Punct}]+", "")
+                .replaceAll("[\\p{Punct}]+$", "");
+            if (estaVazio(normalizado)) {
+                continue;
+            }
+
+            String chave = normalizarChaveBusca(normalizado);
+            if (!PALAVRAS_BRAND_LIVRES.contains(chave) && !chave.matches("\\d+")) {
+                return normalizado;
+            }
+        }
+
+        return MARCA_PADRAO_IMPORTACAO;
+    }
+
+    private String normalizarChaveBusca(String valor) {
+        return normalizarNomeColuna(valor).toUpperCase(Locale.ROOT);
+    }
+
+    private boolean contendoAlgumaPalavra(String textoNormalizado, Set<String> palavras) {
+        for (String palavra : palavras) {
+            if (textoNormalizado.contains(palavra)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private enum TipoImportacao {
+        CADASTRO,
+        RELATORIO
     }
 }

@@ -165,13 +165,13 @@ async function handleCsvSubmit(event) {
   const arquivo = input?.files?.[0];
 
   if (!arquivo) {
-    setFeedback('csv-status', 'Escolha um arquivo CSV antes de importar.', 'error');
+    setFeedback('csv-status', 'Escolha um arquivo CSV de relatorio antes de importar.', 'error');
     return;
   }
 
   const formData = new FormData();
   formData.append('arquivo', arquivo);
-  setFeedback('csv-status', 'Importando arquivo...');
+  setFeedback('csv-status', 'Importando relatorio CSV...');
 
   try {
     const resultado = await fetchJson('/api/admin/produtos/importar-csv', {
