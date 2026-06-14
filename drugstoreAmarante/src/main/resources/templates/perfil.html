@@ -1,0 +1,20 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Perfil</title>
+</head>
+<body>
+
+<h1>Meu Perfil</h1>
+
+<p>Nome: <span th:text="${user.firstName}"></span></p>
+<p>Sobrenome: <span th:text="${user.lastName}"></span></p>
+<p>Email: <span th:text="${user.email}"></span></p>
+<p>CPF: <span th:text="${user.cpf}"></span></p>
+<p>Telefone: <span th:text="${user.phone}"></span></p>
+<p>Data de nascimento: <span th:text="${user.birthDate}"></span></p>
+
+<a th:href="@{/logout}">Sair</a>
+
+</body>
+</html>

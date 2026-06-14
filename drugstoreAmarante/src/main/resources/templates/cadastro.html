@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Cadastro</title>
+</head>
+<body>
+
+<h1>Cadastrar usuário</h1>
+
+<form th:action="@{/cadastro}" method="post" th:object="${user}">
+
+    <input type="text" th:field="*{firstName}" placeholder="First Name" required>
+
+    <input type="text" th:field="*{lastName}" placeholder="Last Name" required>
+
+    <input type="email" th:field="*{email}" placeholder="Email" required>
+
+    <input type="password" th:field="*{password}" placeholder="Password" required>
+
+    <input type="text" th:field="*{cpf}" placeholder="CPF" required>
+
+    <input type="text" th:field="*{gender}" placeholder="Gender">
+
+    <input type="text" th:field="*{phone}" placeholder="Phone">
+
+    <input type="date" th:field="*{birthDate}" required>
+
+
+    <button type="submit">Cadastrar</button>
+
+</form>
+
+<a th:href="@{/login}">Voltar para login</a>
+
+</body>
+</html>
