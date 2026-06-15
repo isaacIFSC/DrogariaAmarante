@@ -26,7 +26,7 @@ function resolveImageUrl(url) {
     return PLACEHOLDER_IMAGE;
   }
 
-  if (/^https?:\/\//i.test(url) || url.startsWith('/')) {
+  if (/^https?:\/\//i.test(url) || url.startsWith('/') || url.startsWith('data:')) {
     return url;
   }
 

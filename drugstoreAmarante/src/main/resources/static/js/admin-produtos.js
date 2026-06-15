@@ -18,6 +18,18 @@ function escapeHtml(value) {
     .replaceAll("'", '&#39;');
 }
 
+function resolveImageUrl(url) {
+  if (!url) {
+    return PLACEHOLDER_IMAGE;
+  }
+
+  if (/^https?:\/\//i.test(url) || url.startsWith('/') || url.startsWith('data:')) {
+    return url;
+  }
+
+  return `/${url.replace(/^\.?\//, '')}`;
+}
+
 function formatPrice(value) {
   const numeric = Number(value);
   return Number.isFinite(numeric) ? moneyFormatter.format(numeric) : escapeText(value);
@@ -89,7 +101,7 @@ function renderRecentProducts(products) {
   grid.innerHTML = products.map((product) => `
     <article class="admin-product-card">
       <div class="admin-product-card__image">
-        <img src="${escapeHtml(product.imagemUrl || PLACEHOLDER_IMAGE)}" alt="Imagem de ${escapeHtml(product.nome)}" />
+        <img src="${escapeHtml(resolveImageUrl(product.imagemUrl))}" alt="Imagem de ${escapeHtml(product.nome)}" />
       </div>
       <div class="admin-product-card__body">
         <div class="admin-product-card__meta">

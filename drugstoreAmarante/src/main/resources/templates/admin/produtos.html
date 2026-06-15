@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DrogariaAmarante | Cadastro de Produtos</title>
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" th:href="@{/css/styles.css}" href="/css/styles.css" />
 </head>
 <body class="admin-page">
   <header class="admin-topbar">
@@ -16,6 +16,9 @@
       <nav class="admin-links" aria-label="Atalhos administrativos">
         <a href="/" class="admin-link">Home</a>
         <a href="/admin/produtos" class="admin-link is-active">Produtos</a>
+        <a href="/carrinho" class="admin-link">Carrinho</a>
+        <a href="/perfil" class="admin-link">Perfil</a>
+        <a href="/logout" class="admin-link">Sair</a>
       </nav>
     </div>
   </header>
@@ -28,6 +31,9 @@
           <h1>Cadastro e importacao de produtos</h1>
           <p class="admin-hero__text">
             Use o formulario para incluir um produto individualmente ou envie um CSV para cadastrar varios de uma vez.
+          </p>
+          <p class="admin-hero__text" th:if="${usuarioLogado != null}">
+            Logado como <strong th:text="${usuarioLogado.email}">usuario</strong>.
           </p>
           <div class="admin-hero__actions">
             <a href="#form-cadastro" class="cta">Novo produto</a>
@@ -134,6 +140,6 @@
     </section>
   </main>
 
-  <script src="/js/admin-produtos.js" defer></script>
+  <script th:src="@{/js/admin-produtos.js}" src="/js/admin-produtos.js" defer></script>
 </body>
 </html>

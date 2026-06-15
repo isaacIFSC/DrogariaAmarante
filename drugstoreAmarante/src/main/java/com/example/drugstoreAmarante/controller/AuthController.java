@@ -1,33 +1,34 @@
 package com.example.drugstoreAmarante.controller;
 
+import com.example.drugstoreAmarante.dto.LoginForm;
 import com.example.drugstoreAmarante.model.User;
 import com.example.drugstoreAmarante.service.UserService;
 import jakarta.servlet.http.HttpSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AuthController {
 
-    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
-    @Autowired
-    private UserService userService;
+    private static final String SESSION_USER = "usuarioLogado";
+    private final UserService userService;
+
+    public AuthController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/perfil")
     public String perfil(HttpSession session, Model model) {
-
-        User user = (User) session.getAttribute("usuarioLogado");
-
+        User user = currentUser(session);
         if (user == null) {
-            return "redirect:/login";
+            return "redirect:/login?next=/perfil";
         }
 
         model.addAttribute("user", user);
-
         return "perfil";
     }
 
@@ -39,58 +40,53 @@ public class AuthController {
 
     @PostMapping("/cadastro")
     public String cadastrar(@ModelAttribute User user) {
-
         userService.salvar(user);
-
-        return "redirect:/login";
+        return "redirect:/login?cadastro=ok";
     }
 
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login(Model model, @RequestParam(required = false) String next) {
         model.addAttribute("loginForm", new LoginForm());
+        model.addAttribute("next", sanitizeNext(next));
         return "login";
     }
 
     @PostMapping("/login")
-    public String loginSubmit(@ModelAttribute LoginForm loginForm, HttpSession session) {
+    public String loginSubmit(
+        @ModelAttribute LoginForm loginForm,
+        @RequestParam(required = false) String next,
+        HttpSession session
+    ) {
+        String login = normalizeLogin(loginForm.getEmail());
+        User user = userService.findByLogin(login);
 
-        User user = userService.findByEmail(loginForm.getEmail());
-
-        if(user != null && user.getPassword().equals(loginForm.getPassword())) {
-            session.setAttribute("usuarioLogado", user);
-            log.info("usuario logado");
-            System.out.println("LOGIN OK");
-            return "redirect:/";
+        if (user != null && user.getPassword() != null && user.getPassword().equals(loginForm.getPassword())) {
+            session.setAttribute(SESSION_USER, user);
+            return "redirect:" + sanitizeNext(next);
         }
 
-        System.out.println("LOGIN FALHOU");
-        return "redirect:/login?erro";
+        return "redirect:/login?erro=1";
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/login";
+        return "redirect:/";
     }
 
-    public static class LoginForm {
-        private String email;
-        private String password;
+    private User currentUser(HttpSession session) {
+        Object value = session.getAttribute(SESSION_USER);
+        return value instanceof User user ? user : null;
+    }
 
-        public String getEmail() {
-            return email;
+    private String sanitizeNext(String next) {
+        if (next == null || next.isBlank() || !next.startsWith("/")) {
+            return "/";
         }
+        return next;
+    }
 
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
+    private String normalizeLogin(String login) {
+        return login == null ? null : login.trim();
     }
 }

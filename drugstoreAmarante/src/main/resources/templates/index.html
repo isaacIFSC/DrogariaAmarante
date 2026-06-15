@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DrogariaAmarante | Home</title>
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" th:href="@{/css/styles.css}" href="/css/styles.css" />
 </head>
 <body>
   <div class="topbar" role="banner">
@@ -30,9 +30,11 @@
       </form>
 
       <div class="header-actions">
-        <a class="text-link" href="#">Entrar</a>
-        <a class="text-link text-link--accent" href="/admin/produtos">Cadastrar produto</a>
-        <button class="icon-btn" aria-label="Carrinho">
+        <a class="text-link" th:if="${usuarioLogado == null}" th:href="@{/login}">Entrar</a>
+        <a class="text-link" th:if="${usuarioLogado != null}" th:href="@{/perfil}">Meu perfil</a>
+        <a class="text-link text-link--accent" th:if="${usuarioLogado != null}" th:href="@{/admin/produtos}">Cadastrar produto</a>
+        <a class="text-link" th:if="${usuarioLogado != null}" th:href="@{/logout}">Sair</a>
+        <a class="icon-btn" th:href="@{/carrinho}" aria-label="Carrinho">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M6 7h13l-1.5 9H8L6 7Z" />
             <circle cx="9" cy="20" r="1.5" />
@@ -40,7 +42,7 @@
             <path d="M4 4h2l1 3" />
           </svg>
           <span class="badge" aria-label="2 itens">2</span>
-        </button>
+        </a>
       </div>
     </div>
   </header>
@@ -63,9 +65,13 @@
           <span class="dot" aria-hidden="true"></span>
           Ofertas
         </button>
-        <a class="menu-item menu-item--link" href="/admin/produtos">
+        <a class="menu-item menu-item--link" th:if="${usuarioLogado != null}" th:href="@{/admin/produtos}">
           <span class="dot" aria-hidden="true"></span>
           Area do admin
+        </a>
+        <a class="menu-item menu-item--link" th:if="${usuarioLogado == null}" th:href="@{/login?next=/admin/produtos}">
+          <span class="dot" aria-hidden="true"></span>
+          Entrar para vender
         </a>
       </div>
     </nav>
@@ -171,6 +177,6 @@
       <p>DrogariaAmarante 2026. Todos os direitos reservados.</p>
     </div>
   </footer>
-  <script src="/js/home.js" defer></script>
+  <script th:src="@{/js/home.js}" src="/js/home.js" defer></script>
 </body>
 </html>

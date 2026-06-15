@@ -4,15 +4,15 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DrogariaAmarante | Carrinho</title>
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" th:href="@{/css/styles.css}" href="/css/styles.css" />
 </head>
 <body>
   <div class="topbar" role="banner">
-    <p>Oferta limitada: 10% OFF na primeira compra • 25:15:00</p>
+    <p>Oferta limitada: 10% OFF na primeira compra</p>
   </div>
 
   <header class="site-header" role="banner">
-    <div class="container header-grid" href="/">
+    <div class="container header-grid">
       <a class="logo" href="/" aria-label="DrogariaAmarante">
         <span class="logo-mark" aria-hidden="true">DA</span>
         <span class="logo-text">Drogaria<span>Amarante</span></span>
@@ -30,13 +30,17 @@
       </form>
 
       <div class="header-actions">
-        <button class="icon-btn" aria-label="Minha conta">
+        <a class="text-link" th:if="${usuarioLogado == null}" th:href="@{/login}">Entrar</a>
+        <a class="text-link" th:if="${usuarioLogado != null}" th:href="@{/perfil}">Meu perfil</a>
+        <a class="text-link text-link--accent" th:if="${usuarioLogado != null}" th:href="@{/admin/produtos}">Cadastrar produto</a>
+        <a class="text-link" th:if="${usuarioLogado != null}" th:href="@{/logout}">Sair</a>
+        <a class="icon-btn" th:href="@{/perfil}" aria-label="Minha conta">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="8" r="4" />
             <path d="M4 20c1.6-3.5 5-5 8-5s6.4 1.5 8 5" />
           </svg>
-        </button>
-        <button class="icon-btn" aria-label="Carrinho">
+        </a>
+        <a class="icon-btn" th:href="@{/carrinho}" aria-label="Carrinho">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M6 7h13l-1.5 9H8L6 7Z" />
             <circle cx="9" cy="20" r="1.5" />
@@ -44,7 +48,7 @@
             <path d="M4 4h2l1 3" />
           </svg>
           <span class="badge" aria-label="2 itens">2</span>
-        </button>
+        </a>
       </div>
     </div>
   </header>
@@ -67,6 +71,10 @@
         <span class="dot" aria-hidden="true"></span>
         Ofertas
       </button>
+      <a class="menu-item menu-item--link" th:if="${usuarioLogado == null}" th:href="@{/login?next=/admin/produtos}">
+        <span class="dot" aria-hidden="true"></span>
+        Entrar para vender
+      </a>
     </div>
   </nav>
 
@@ -92,7 +100,7 @@
                 <div class="cart-thumb">
                   <img
                     th:src="${item.imagemUrl}"
-                    src="/images/produto-placeholder.png"
+                    src="/images/produto-placeholder.svg"
                     alt="Imagem do produto"
                   />
                 </div>

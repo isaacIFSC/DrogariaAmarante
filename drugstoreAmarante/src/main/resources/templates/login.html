@@ -1,12 +1,25 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DrogariaAmarante | Login</title>
-  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" th:href="@{/css/styles.css}" href="/css/styles.css" />
 </head>
 <body class="auth-page">
+  <header class="site-header" role="banner">
+    <div class="container header-grid">
+      <a class="logo" href="/" aria-label="DrogariaAmarante">
+        <span class="logo-mark" aria-hidden="true">DA</span>
+        <span class="logo-text">Drogaria<span>Amarante</span></span>
+      </a>
+      <div class="header-actions">
+        <a class="text-link" th:href="@{/}">Home</a>
+        <a class="text-link text-link--accent" th:href="@{/cadastro}">Criar conta</a>
+      </div>
+    </div>
+  </header>
+
   <main class="auth-main" role="main">
     <section class="auth-card" aria-label="Acesso a conta">
       <header class="auth-header">
@@ -14,51 +27,42 @@
         <p>Use seu email ou CPF para acessar</p>
       </header>
 
-      <!-- Estrutura pronta para integracao com Spring Security -->
+      <div class="auth-alert auth-alert--success" th:if="${param.cadastro}">
+        Cadastro realizado com sucesso. Agora entre com sua conta.
+      </div>
+
+      <div class="auth-alert auth-alert--error" th:if="${param.erro}">
+        Email, CPF ou senha invalidos
+      </div>
+
       <form class="auth-form" th:action="@{/login}" method="post" th:object="${loginForm}">
+        <input type="hidden" name="next" th:value="${next}" />
+
         <label class="field">
           <span>Email ou CPF</span>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            required
-          />
+          <input type="text" th:field="*{email}" placeholder="Email ou CPF" required />
         </label>
 
         <label class="field">
           <span>Senha</span>
-          <input
-            type="password"
-            name="password"
-            placeholder="Senha"
-            required
-          />
+          <input type="password" th:field="*{password}" placeholder="Senha" required />
         </label>
 
         <button type="submit" class="btn-primary">Entrar</button>
-        <p th:if="${param.erro}" style="color:red;">
-          Email ou senha inválidos
-        </p>
-        <div class="auth-links">
-          <a href="#" class="link">Esqueci a senha</a>
-        </div>
-
-        <div class="auth-footer">
-          <span>Nao tem conta?</span>
-          <a href="cadastro" class="link">Cadastre-se</a>
-        </div>
       </form>
+
+      <div class="auth-footer">
+        <span>Nao tem conta?</span>
+        <a th:href="@{/cadastro}" class="link">Cadastre-se</a>
+      </div>
     </section>
   </main>
 
   <footer class="auth-site-footer">
-    <div class="logo">
-      <a class="logo" th:href="@{/}">
-        <span class="logo-mark">DA</span>
-        <span class="logo-text">Drogaria <span>Amarante</span></span>
-      </a>
-    </div>
+    <a class="logo" th:href="@{/}">
+      <span class="logo-mark">DA</span>
+      <span class="logo-text">Drogaria <span>Amarante</span></span>
+    </a>
   </footer>
 </body>
 </html>

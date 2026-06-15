@@ -10,7 +10,7 @@ public class LoginForm {
     }
 
     public void setEmail(String mail) {
-        this.email = email;
+        this.email = mail;
     }
 
     public String getPassword() {

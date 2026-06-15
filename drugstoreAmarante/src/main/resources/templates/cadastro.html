@@ -1,37 +1,81 @@
 <!doctype html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8" />
-    <title>Cadastro</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DrogariaAmarante | Cadastro</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" href="/css/styles.css" />
 </head>
-<body>
+<body class="auth-page">
+  <header class="site-header" role="banner">
+    <div class="container header-grid">
+      <a class="logo" href="/" aria-label="DrogariaAmarante">
+        <span class="logo-mark" aria-hidden="true">DA</span>
+        <span class="logo-text">Drogaria<span>Amarante</span></span>
+      </a>
+      <div class="header-actions">
+        <a class="text-link" th:href="@{/}">Home</a>
+        <a class="text-link text-link--accent" th:href="@{/login}">Entrar</a>
+      </div>
+    </div>
+  </header>
 
-<h1>Cadastrar usuário</h1>
+  <main class="auth-main" role="main">
+    <section class="auth-card auth-card--wide" aria-label="Criar conta">
+      <header class="auth-header">
+        <h1>Criar conta</h1>
+        <p>Cadastre-se para acessar o perfil e voltar ao fluxo da loja.</p>
+      </header>
 
-<form th:action="@{/cadastro}" method="post" th:object="${user}">
+      <form class="auth-form auth-form--grid" th:action="@{/cadastro}" method="post" th:object="${user}">
+        <label class="field">
+          <span>Nome</span>
+          <input type="text" th:field="*{firstName}" placeholder="Nome" required />
+        </label>
 
-    <input type="text" th:field="*{firstName}" placeholder="First Name" required>
+        <label class="field">
+          <span>Sobrenome</span>
+          <input type="text" th:field="*{lastName}" placeholder="Sobrenome" required />
+        </label>
 
-    <input type="text" th:field="*{lastName}" placeholder="Last Name" required>
+        <label class="field">
+          <span>Email</span>
+          <input type="email" th:field="*{email}" placeholder="Email" required />
+        </label>
 
-    <input type="email" th:field="*{email}" placeholder="Email" required>
+        <label class="field">
+          <span>Senha</span>
+          <input type="password" th:field="*{password}" placeholder="Senha" required />
+        </label>
 
-    <input type="password" th:field="*{password}" placeholder="Password" required>
+        <label class="field">
+          <span>CPF</span>
+          <input type="text" th:field="*{cpf}" placeholder="Somente numeros" required />
+        </label>
 
-    <input type="text" th:field="*{cpf}" placeholder="CPF" required>
+        <label class="field">
+          <span>Telefone</span>
+          <input type="text" th:field="*{phone}" placeholder="Telefone" required />
+        </label>
 
-    <input type="text" th:field="*{gender}" placeholder="Gender">
+        <label class="field">
+          <span>Genero</span>
+          <input type="text" th:field="*{gender}" placeholder="Genero" />
+        </label>
 
-    <input type="text" th:field="*{phone}" placeholder="Phone">
+        <label class="field">
+          <span>Data de nascimento</span>
+          <input type="date" th:field="*{birthDate}" required />
+        </label>
 
-    <input type="date" th:field="*{birthDate}" required>
+        <button type="submit" class="btn-primary field-wide">Cadastrar</button>
+      </form>
 
-
-    <button type="submit">Cadastrar</button>
-
-</form>
-
-<a th:href="@{/login}">Voltar para login</a>
-
+      <div class="auth-footer">
+        <span>Ja tem conta?</span>
+        <a th:href="@{/login}" class="link">Voltar para login</a>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
