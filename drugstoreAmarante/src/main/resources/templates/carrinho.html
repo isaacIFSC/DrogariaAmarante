@@ -148,8 +148,8 @@
               <li><span>Taxa de entrega</span><strong th:text="${resumo.taxaEntrega}">R$ 0,00</strong></li>
               <li class="summary-total"><span>Total</span><strong th:text="${resumo.total}">R$ 0,00</strong></li>
             </ul>
-            <button class="btn-primary" type="button">Prosseguir</button>
-            <button class="btn-secondary" type="button">Continuar comprando</button>
+            <a class="btn-primary" th:href="@{/pagamento}">Prosseguir</a>
+            <a class="btn-secondary" th:href="@{/}">Continuar comprando</a>
           </aside>
         </div>
       </div>

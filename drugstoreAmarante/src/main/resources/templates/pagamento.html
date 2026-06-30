@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DrogariaAmarante | Pagamento</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" href="/css/styles.css" />
+</head>
+<body>
+  <div class="topbar" role="banner">
+    <p>Finalize sua compra com seguranca e rapidez</p>
+  </div>
+
+  <header class="site-header" role="banner">
+    <div class="container header-grid">
+      <a class="logo" href="/" aria-label="DrogariaAmarante">
+        <span class="logo-mark" aria-hidden="true">DA</span>
+        <span class="logo-text">Drogaria<span>Amarante</span></span>
+      </a>
+
+      <form class="search" role="search" aria-label="Buscar produtos">
+        <label class="sr-only" for="campo-busca">Buscar</label>
+        <input id="campo-busca" type="search" placeholder="O que voce procura?" />
+        <button type="submit" class="icon-btn" aria-label="Pesquisar">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <path d="M20 20l-3.5-3.5" />
+          </svg>
+        </button>
+      </form>
+
+      <div class="header-actions">
+        <a class="text-link" th:if="${usuarioLogado == null}" th:href="@{/login}">Entrar</a>
+        <a class="text-link" th:if="${usuarioLogado != null}" th:href="@{/perfil}">Meu perfil</a>
+        <a class="text-link text-link--accent" th:if="${usuarioLogado != null}" th:href="@{/admin/produtos}">Cadastrar produto</a>
+        <a class="text-link" th:if="${usuarioLogado != null}" th:href="@{/logout}">Sair</a>
+        <a class="icon-btn" th:href="@{/perfil}" aria-label="Minha conta">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c1.6-3.5 5-5 8-5s6.4 1.5 8 5" />
+          </svg>
+        </a>
+        <a class="icon-btn" th:href="@{/carrinho}" aria-label="Carrinho">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M6 7h13l-1.5 9H8L6 7Z" />
+            <circle cx="9" cy="20" r="1.5" />
+            <circle cx="17" cy="20" r="1.5" />
+            <path d="M4 4h2l1 3" />
+          </svg>
+          <span class="badge" aria-label="2 itens">2</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="menu" aria-label="Menu principal">
+    <div class="container menu-grid">
+      <button class="menu-item" type="button">
+        <span class="dot" aria-hidden="true"></span>
+        Envio via CEP
+      </button>
+      <button class="menu-item" type="button">
+        <span class="dot" aria-hidden="true"></span>
+        Todas as categorias
+      </button>
+      <button class="menu-item" type="button">
+        <span class="dot" aria-hidden="true"></span>
+        Mais buscados
+      </button>
+      <button class="menu-item" type="button">
+        <span class="dot" aria-hidden="true"></span>
+        Ofertas
+      </button>
+      <a class="menu-item menu-item--link" th:if="${usuarioLogado == null}" th:href="@{/login?next=/admin/produtos}">
+        <span class="dot" aria-hidden="true"></span>
+        Entrar para vender
+      </a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="checkout" aria-labelledby="titulo-pagamento">
+      <div class="container">
+        <header class="checkout-header">
+          <p class="kicker">Passo 2 de 2</p>
+          <h1 id="titulo-pagamento">Pagamento</h1>
+          <p>Escolha como pagar e confirme o pedido para seguir com a entrega.</p>
+        </header>
+
+        <div class="checkout-layout">
+          <section class="checkout-panel" aria-labelledby="titulo-entrega">
+            <div class="checkout-block">
+              <h2 id="titulo-entrega">Endereco de entrega</h2>
+              <div class="address-card">
+                <strong>Casa principal</strong>
+                <p>Rua das Flores, 120 - Centro</p>
+                <p>Franca, SP - 14400-000</p>
+                <a class="link" th:href="@{/perfil}">Editar no perfil</a>
+              </div>
+            </div>
+
+            <div class="checkout-block">
+              <h2>Forma de pagamento</h2>
+              <div class="payment-methods">
+                <label class="payment-method payment-method--selected">
+                  <input type="radio" name="paymentMethod" checked />
+                  <div>
+                    <strong>Cartao de credito</strong>
+                    <p>Parcelamento em ate 3x sem juros.</p>
+                  </div>
+                </label>
+
+                <label class="payment-method">
+                  <input type="radio" name="paymentMethod" />
+                  <div>
+                    <strong>Pix</strong>
+                    <p>Pagamento instantaneo com aprovacao rapida.</p>
+                  </div>
+                </label>
+
+                <label class="payment-method">
+                  <input type="radio" name="paymentMethod" />
+                  <div>
+                    <strong>Debito</strong>
+                    <p>Debito online com validacao imediata.</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="checkout-block">
+              <h2>Dados do cartao</h2>
+              <div class="payment-grid">
+                <label class="field">
+                  <span>Nome no cartao</span>
+                  <input type="text" placeholder="Como esta no cartao" />
+                </label>
+                <label class="field">
+                  <span>Numero do cartao</span>
+                  <input type="text" placeholder="0000 0000 0000 0000" />
+                </label>
+                <label class="field">
+                  <span>Validade</span>
+                  <input type="text" placeholder="MM/AA" />
+                </label>
+                <label class="field">
+                  <span>CVV</span>
+                  <input type="text" placeholder="123" />
+                </label>
+              </div>
+            </div>
+
+            <div class="checkout-actions">
+              <a class="btn-secondary" th:href="@{/carrinho}">Voltar ao carrinho</a>
+              <button class="btn-primary" type="button">Confirmar pagamento</button>
+            </div>
+          </section>
+
+          <aside class="order-summary order-summary--checkout" aria-label="Resumo do pedido">
+            <h2>Resumo do pedido</h2>
+            <ul class="summary-list">
+              <li><span>Subtotal</span><strong th:text="${resumo.subtotal}">R$ 0,00</strong></li>
+              <li><span>Descontos</span><strong th:text="${resumo.descontos}">R$ 0,00</strong></li>
+              <li><span>Taxa de entrega</span><strong th:text="${resumo.taxaEntrega}">R$ 0,00</strong></li>
+              <li class="summary-total"><span>Total</span><strong th:text="${resumo.total}">R$ 0,00</strong></li>
+            </ul>
+
+            <div class="checkout-note">
+              <strong>Pedido seguro</strong>
+              <p>Seus dados sao tratados com sigilo e usados apenas para concluir a compra.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="auth-site-footer">
+    <div class="logo">
+      <span class="logo-mark" aria-hidden="true">DA</span>
+      <span class="logo-text">Drogaria <span>Amarante</span></span>
+    </div>
+  </footer>
+</body>
+</html>

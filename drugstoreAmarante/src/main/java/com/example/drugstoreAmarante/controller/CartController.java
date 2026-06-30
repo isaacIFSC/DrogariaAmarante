@@ -12,6 +12,17 @@ public class CartController {
 
     @GetMapping("/carrinho")
     public String carrinho(Model model) {
+        preencherCarrinho(model);
+        return "carrinho";
+    }
+
+    @GetMapping("/pagamento")
+    public String pagamento(Model model) {
+        preencherCarrinho(model);
+        return "pagamento";
+    }
+
+    private void preencherCarrinho(Model model) {
         List<Map<String, Object>> carrinho = List.of(
             Map.of(
                 "nome", "Vitamina C 500mg",
@@ -38,6 +49,5 @@ public class CartController {
 
         model.addAttribute("carrinho", carrinho);
         model.addAttribute("resumo", resumo);
-        return "carrinho";
     }
 }

@@ -150,18 +150,20 @@
         <div class="products-grid" id="products-grid" aria-live="polite" aria-busy="true"></div>
         <template id="product-card-template">
           <article class="product-card">
-            <div class="product-image">
-              <img class="product-image-el" src="/images/produto-placeholder.svg" alt="" />
-            </div>
-            <div class="product-info">
-              <div class="product-meta">
-                <span class="product-badge category"></span>
-                <span class="product-badge brand"></span>
+            <a class="product-card__link" href="/">
+              <div class="product-image">
+                <img class="product-image-el" src="/images/produto-placeholder.svg" alt="" />
               </div>
-              <h3 class="product-name"></h3>
-              <p class="product-description"></p>
-              <p class="price product-price"></p>
-            </div>
+              <div class="product-info">
+                <div class="product-meta">
+                  <span class="product-badge category"></span>
+                  <span class="product-badge brand"></span>
+                </div>
+                <h3 class="product-name"></h3>
+                <p class="product-description"></p>
+                <p class="price product-price"></p>
+              </div>
+            </a>
             <button class="add-btn" type="button" aria-label="Adicionar ao carrinho">+</button>
           </article>
         </template>

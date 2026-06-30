@@ -61,12 +61,19 @@ function createLoadingCards(grid) {
 
 function createProductCard(product, template) {
   const node = template.content.firstElementChild.cloneNode(true);
+  const link = node.querySelector('.product-card__link');
   const image = node.querySelector('.product-image-el');
   const category = node.querySelector('.category');
   const brand = node.querySelector('.brand');
   const name = node.querySelector('.product-name');
   const description = node.querySelector('.product-description');
   const price = node.querySelector('.product-price');
+
+  if (link) {
+    const productPath = product?.id != null ? `/produto/${product.id}` : '/';
+    link.setAttribute('href', productPath);
+    link.setAttribute('aria-label', product.nome ? `Abrir ${product.nome}` : 'Abrir detalhes do produto');
+  }
 
   image.src = resolveImageUrl(product.imagemUrl);
   image.alt = product.nome ? `Imagem de ${product.nome}` : 'Imagem do produto';
