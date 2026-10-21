@@ -197,13 +197,20 @@ Projeto acadêmico para fins educacionais.
 - [Checklist de lacunas](docs/01-checklist-de-gaps.md)
 - [Roadmap de desenvolvimento](docs/02-roadmap-de-desenvolvimento.md)
 - [Analise tecnica do projeto](docs/03-analise-tecnica-do-projeto.md)
+- [Mapa atual e lacunas do fluxo](docs/04-mapa-atual-e-lacunas.md)
 
 ## Docker
 
 Subir a aplicação com SQL Server:
 
 ```bash
+export DROGARIA_ADMIN_EMAIL='admin@seudominio.com'
+export DROGARIA_ADMIN_PASSWORD='use-outra-senha-forte-e-unica'
+export DROGARIA_ADMIN_CPF='seu-cpf-sem-pontuacao'
+export DROGARIA_ADMIN_PHONE='seu-telefone'
 docker compose -f drugstoreAmarante/docker-compose.yml up --build
 ```
+
+No PowerShell, configure as variáveis `DROGARIA_ADMIN_*` com `$env:NOME = 'valor'` antes de subir o Compose. O usuário `sa` e a senha local do SQL Server permanecem configurados no Compose para manter a conexão existente do Beekeeper. O administrador inicial da aplicação só é criado quando os quatro valores `DROGARIA_ADMIN_*` estão definidos; essa conta é separada do login do SQL Server.
 
 A aplicação ficará disponível em `http://localhost:8080` e o banco em `localhost:1433`.
