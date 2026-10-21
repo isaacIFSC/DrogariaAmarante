@@ -5,12 +5,15 @@ import java.util.List;
 
 import jakarta.persistence.criteria.JoinType;
 import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.example.drugstoreAmarante.dto.ProdutoResponse;
+import com.example.drugstoreAmarante.dto.CatalogoPaginaResponse;
 import com.example.drugstoreAmarante.domain.Categoria;
 import com.example.drugstoreAmarante.domain.Marca;
 import com.example.drugstoreAmarante.domain.Produto;
@@ -51,6 +54,55 @@ public class ProdutoService {
         Produto produto = produtoRepository.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto nao encontrado"));
         return toResponse(produto);
+    }
+
+    public CatalogoPaginaResponse listarPaginado(
+        String q,
+        String categoria,
+        String marca,
+        BigDecimal minPreco,
+        BigDecimal maxPreco,
+        Boolean disponivel,
+        String ordenacao,
+        int pagina,
+        int tamanhoPagina
+    ) {
+        if (minPreco != null && maxPreco != null && minPreco.compareTo(maxPreco) > 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O preco minimo nao pode ser maior que o preco maximo");
+        }
+
+        int paginaNormalizada = Math.max(pagina, 0);
+        int tamanhoNormalizado = Math.min(Math.max(tamanhoPagina, 1), 48);
+        Page<Produto> resultado = produtoRepository.findAll(
+            filtroCatalogo(q, categoria, marca, minPreco, maxPreco, disponivel),
+            PageRequest.of(paginaNormalizada, tamanhoNormalizado, sortFrom(ordenacao))
+        );
+
+        return new CatalogoPaginaResponse(
+            resultado.getContent().stream().map(this::toResponse).toList(),
+            resultado.getNumber(),
+            resultado.getSize(),
+            resultado.getTotalElements(),
+            resultado.getTotalPages(),
+            resultado.hasPrevious(),
+            resultado.hasNext()
+        );
+    }
+
+    private Specification<Produto> filtroCatalogo(
+        String q,
+        String categoria,
+        String marca,
+        BigDecimal minPreco,
+        BigDecimal maxPreco,
+        Boolean disponivel
+    ) {
+        return Specification.where(nomeOuDescricaoContem(q))
+            .and(categoriaIgual(categoria))
+            .and(marcaIgual(marca))
+            .and(precoMaiorOuIgual(minPreco))
+            .and(precoMenorOuIgual(maxPreco))
+            .and(disponivelIgual(disponivel));
     }
 
     private ProdutoResponse toResponse(Produto produto) {

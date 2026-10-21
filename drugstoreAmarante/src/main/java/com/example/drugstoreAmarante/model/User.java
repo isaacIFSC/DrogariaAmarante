@@ -1,5 +1,6 @@
 package com.example.drugstoreAmarante.model;
 
+import com.example.drugstoreAmarante.domain.PerfilUsuario;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -26,6 +27,10 @@ public class User {
     @Column(nullable = false, unique = true)
     private String phone;
     private LocalDate birthDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
+    private PerfilUsuario perfil = PerfilUsuario.CLIENTE;
 
     public User() {
     }
@@ -99,5 +104,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public PerfilUsuario getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(PerfilUsuario perfil) {
+        this.perfil = perfil;
     }
 }

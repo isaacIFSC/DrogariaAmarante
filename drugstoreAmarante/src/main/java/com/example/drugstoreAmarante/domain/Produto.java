@@ -47,7 +47,7 @@ public class Produto {
     @JoinColumn(name = "marca_id")
     private Marca marca;
 
-    protected Produto() {
+    public Produto() {
     }
 
     public Produto(
@@ -72,35 +72,71 @@ public class Produto {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getNome() {
         return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getDescricao() {
         return descricao;
     }
 
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
     public BigDecimal getPreco() {
         return preco;
+    }
+
+    public void setPreco(BigDecimal preco) {
+        this.preco = preco;
     }
 
     public String getImagemUrl() {
         return imagemUrl;
     }
 
+    public void setImagemUrl(String imagemUrl) {
+        this.imagemUrl = imagemUrl;
+    }
+
     public Integer getEstoque() {
         return estoque;
+    }
+
+    public void setEstoque(Integer estoque) {
+        this.estoque = estoque;
     }
 
     public boolean isAtivo() {
         return ativo;
     }
 
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }
+
     public Categoria getCategoria() {
         return categoria;
     }
 
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
     public Marca getMarca() {
         return marca;
+    }
+
+    public void setMarca(Marca marca) {
+        this.marca = marca;
     }
 }

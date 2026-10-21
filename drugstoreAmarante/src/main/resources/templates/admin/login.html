@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DrogariaAmarante | Login do Admin</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" href="/css/styles.css" />
+</head>
+<body class="auth-page">
+  <header class="site-header" role="banner">
+    <div class="container header-grid">
+      <a class="logo" href="/" aria-label="DrogariaAmarante">
+        <span class="logo-mark" aria-hidden="true">DA</span>
+        <span class="logo-text">Drogaria<span>Amarante</span></span>
+      </a>
+      <div class="header-actions">
+        <a class="text-link" th:href="@{/}">Home</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="auth-main" role="main">
+    <section class="auth-card" aria-label="Acesso administrativo">
+      <header class="auth-header">
+        <h1>Entrar como administrador</h1>
+        <p>Area interna restrita para gestao do catalogo e operacao da loja.</p>
+      </header>
+
+      <div class="auth-alert auth-alert--error" th:if="${param.erro}">
+        Email, CPF ou senha invalidos para acesso administrativo
+      </div>
+
+      <form class="auth-form" th:action="@{/admin/login}" method="post" th:object="${loginForm}">
+        <input type="hidden" th:name="${csrf.parameterName}" th:value="${csrf.token}" />
+        <input type="hidden" name="next" th:value="${next}" />
+
+        <label class="field">
+          <span>Email ou CPF</span>
+          <input type="text" th:field="*{email}" placeholder="Email ou CPF do admin" required />
+        </label>
+
+        <label class="field">
+          <span>Senha</span>
+          <input type="password" th:field="*{password}" placeholder="Senha" required />
+        </label>
+
+        <button type="submit" class="btn-primary">Entrar no painel</button>
+      </form>
+
+      <div class="auth-footer">
+        <span>Area privada</span>
+        <a th:href="@{/}" class="link">Voltar para a home</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="auth-site-footer">
+    <a class="logo" th:href="@{/}">
+      <span class="logo-mark">DA</span>
+      <span class="logo-text">Drogaria <span>Amarante</span></span>
+    </a>
+  </footer>
+</body>
+</html>

@@ -48,8 +48,8 @@ function setFeedback(id, message, type = 'info') {
 
 async function fetchJson(url, options = {}) {
   const response = await fetch(url, {
-    headers: { Accept: 'application/json', ...(options.headers || {}) },
     ...options,
+    headers: csrfHeaders({ Accept: 'application/json', ...(options.headers || {}) }),
   });
 
   const text = await response.text();

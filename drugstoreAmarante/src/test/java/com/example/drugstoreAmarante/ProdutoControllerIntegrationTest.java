@@ -78,6 +78,36 @@ class ProdutoControllerIntegrationTest {
         assertEquals(3, ((Number) JsonPath.read(marcas.body(), "$.length()")).intValue());
     }
 
+    @Test
+    void devePaginarCatalogoComFiltros() throws Exception {
+        HttpResponse<String> response = httpClient.send(
+            HttpRequest.newBuilder(URI.create(
+                url("/api/catalogo/produtos?categoria=Higiene&minPreco=10&tamanho=1&pagina=0")
+            )).GET().build(),
+            HttpResponse.BodyHandlers.ofString()
+        );
+
+        assertEquals(200, response.statusCode());
+        assertEquals(1, ((Number) JsonPath.read(response.body(), "$.produtos.length()")).intValue());
+        assertEquals("Creme Dental Colgate Total 12", JsonPath.read(response.body(), "$.produtos[0].nome"));
+        assertEquals(1, ((Number) JsonPath.read(response.body(), "$.totalProdutos")).intValue());
+        assertEquals(false, JsonPath.read(response.body(), "$.temProximaPagina"));
+    }
+
+    @Test
+    void deveRejeitarFaixaDePrecoInvalidaNoCatalogo() throws Exception {
+        HttpResponse<String> response = httpClient.send(
+            HttpRequest.newBuilder(URI.create(url("/api/catalogo/produtos?minPreco=30&maxPreco=10"))).GET().build(),
+            HttpResponse.BodyHandlers.ofString()
+        );
+
+        assertEquals(400, response.statusCode());
+        assertEquals(
+            "O preco minimo nao pode ser maior que o preco maximo",
+            JsonPath.read(response.body(), "$.message")
+        );
+    }
+
     private String url(String path) {
         return "http://localhost:" + port + path;
     }

@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DrogariaAmarante | Pagamento</title>
+  <title>Drogaria Amarante | Finalizar Compra & Pagamento</title>
   <link rel="stylesheet" th:href="@{/css/styles.css}" href="/css/styles.css" />
 </head>
 <body>
   <div class="topbar" role="banner">
-    <p>Finalize sua compra com seguranca e rapidez</p>
+    <p>🔒 Checkout 100% Seguro e Criptografado | Drogaria Amarante</p>
   </div>
 
   <header class="site-header" role="banner">
@@ -18,28 +18,9 @@
         <span class="logo-text">Drogaria<span>Amarante</span></span>
       </a>
 
-      <form class="search" role="search" aria-label="Buscar produtos">
-        <label class="sr-only" for="campo-busca">Buscar</label>
-        <input id="campo-busca" type="search" placeholder="O que voce procura?" />
-        <button type="submit" class="icon-btn" aria-label="Pesquisar">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="11" cy="11" r="7" />
-            <path d="M20 20l-3.5-3.5" />
-          </svg>
-        </button>
-      </form>
-
       <div class="header-actions">
-        <a class="text-link" th:if="${usuarioLogado == null}" th:href="@{/login}">Entrar</a>
         <a class="text-link" th:if="${usuarioLogado != null}" th:href="@{/perfil}">Meu perfil</a>
-        <a class="text-link text-link--accent" th:if="${usuarioLogado != null}" th:href="@{/admin/produtos}">Cadastrar produto</a>
-        <a class="text-link" th:if="${usuarioLogado != null}" th:href="@{/logout}">Sair</a>
-        <a class="icon-btn" th:href="@{/perfil}" aria-label="Minha conta">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="8" r="4" />
-            <path d="M4 20c1.6-3.5 5-5 8-5s6.4 1.5 8 5" />
-          </svg>
-        </a>
+        <a class="text-link" th:if="${usuarioLogado == null}" th:href="@{/login}">Entrar</a>
         <a class="icon-btn" th:href="@{/carrinho}" aria-label="Carrinho">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M6 7h13l-1.5 9H8L6 7Z" />
@@ -47,127 +28,142 @@
             <circle cx="17" cy="20" r="1.5" />
             <path d="M4 4h2l1 3" />
           </svg>
-          <span class="badge" aria-label="2 itens">2</span>
+          <span class="badge" id="header-cart-count" th:text="${resumo != null ? resumo.quantidadeTotalItens : 0}">0</span>
         </a>
       </div>
     </div>
   </header>
 
-  <nav class="menu" aria-label="Menu principal">
-    <div class="container menu-grid">
-      <button class="menu-item" type="button">
-        <span class="dot" aria-hidden="true"></span>
-        Envio via CEP
-      </button>
-      <button class="menu-item" type="button">
-        <span class="dot" aria-hidden="true"></span>
-        Todas as categorias
-      </button>
-      <button class="menu-item" type="button">
-        <span class="dot" aria-hidden="true"></span>
-        Mais buscados
-      </button>
-      <button class="menu-item" type="button">
-        <span class="dot" aria-hidden="true"></span>
-        Ofertas
-      </button>
-      <a class="menu-item menu-item--link" th:if="${usuarioLogado == null}" th:href="@{/login?next=/admin/produtos}">
-        <span class="dot" aria-hidden="true"></span>
-        Entrar para vender
-      </a>
-    </div>
-  </nav>
-
-  <main>
+  <main id="checkout-main-content">
     <section class="checkout" aria-labelledby="titulo-pagamento">
       <div class="container">
         <header class="checkout-header">
-          <p class="kicker">Passo 2 de 2</p>
-          <h1 id="titulo-pagamento">Pagamento</h1>
-          <p>Escolha como pagar e confirme o pedido para seguir com a entrega.</p>
+          <p class="kicker">Etapa Final de Compra</p>
+          <h1 id="titulo-pagamento">Identificação & Pagamento</h1>
+          <p>Confirme os dados de entrega e registre seu pedido. O pagamento ainda aguarda integração e confirmação.</p>
         </header>
 
         <div class="checkout-layout">
-          <section class="checkout-panel" aria-labelledby="titulo-entrega">
+          <section class="checkout-panel">
+            <!-- Bloco 1: Dados do Cliente -->
             <div class="checkout-block">
-              <h2 id="titulo-entrega">Endereco de entrega</h2>
-              <div class="address-card">
-                <strong>Casa principal</strong>
-                <p>Rua das Flores, 120 - Centro</p>
-                <p>Franca, SP - 14400-000</p>
-                <a class="link" th:href="@{/perfil}">Editar no perfil</a>
-              </div>
-            </div>
-
-            <div class="checkout-block">
-              <h2>Forma de pagamento</h2>
-              <div class="payment-methods">
-                <label class="payment-method payment-method--selected">
-                  <input type="radio" name="paymentMethod" checked />
-                  <div>
-                    <strong>Cartao de credito</strong>
-                    <p>Parcelamento em ate 3x sem juros.</p>
-                  </div>
-                </label>
-
-                <label class="payment-method">
-                  <input type="radio" name="paymentMethod" />
-                  <div>
-                    <strong>Pix</strong>
-                    <p>Pagamento instantaneo com aprovacao rapida.</p>
-                  </div>
-                </label>
-
-                <label class="payment-method">
-                  <input type="radio" name="paymentMethod" />
-                  <div>
-                    <strong>Debito</strong>
-                    <p>Debito online com validacao imediata.</p>
-                  </div>
-                </label>
-              </div>
-            </div>
-
-            <div class="checkout-block">
-              <h2>Dados do cartao</h2>
+              <h2>1. Dados Pessoais</h2>
               <div class="payment-grid">
                 <label class="field">
-                  <span>Nome no cartao</span>
-                  <input type="text" placeholder="Como esta no cartao" />
+                  <span>Nome Completo *</span>
+                  <input type="text" id="checkout-nome" placeholder="Digite seu nome completo"
+                         th:value="${usuarioLogado != null ? (usuarioLogado.firstName + ' ' + usuarioLogado.lastName) : ''}" required />
                 </label>
+
                 <label class="field">
-                  <span>Numero do cartao</span>
-                  <input type="text" placeholder="0000 0000 0000 0000" />
+                  <span>E-mail para confirmação *</span>
+                  <input type="email" id="checkout-email" placeholder="seuemail@exemplo.com"
+                         th:value="${usuarioLogado != null ? usuarioLogado.email : ''}" required />
                 </label>
+
                 <label class="field">
-                  <span>Validade</span>
-                  <input type="text" placeholder="MM/AA" />
+                  <span>CPF</span>
+                  <input type="text" id="checkout-cpf" placeholder="000.000.000-00"
+                         th:value="${usuarioLogado != null ? usuarioLogado.cpf : ''}" />
                 </label>
+
                 <label class="field">
-                  <span>CVV</span>
-                  <input type="text" placeholder="123" />
+                  <span>Telefone / WhatsApp</span>
+                  <input type="tel" id="checkout-telefone" placeholder="(47) 99999-9999"
+                         th:value="${usuarioLogado != null ? usuarioLogado.phone : ''}" />
                 </label>
               </div>
+            </div>
+
+            <!-- Bloco 2: Endereço de Entrega -->
+            <div class="checkout-block">
+              <h2>2. Endereço de Entrega</h2>
+              <div class="payment-grid">
+                <label class="field field--full">
+                  <span>Rua / Logradouro *</span>
+                  <input type="text" id="checkout-logradouro" placeholder="Ex: Rua Anfilóquio Nunes Pires" required />
+                </label>
+
+                <label class="field">
+                  <span>Número *</span>
+                  <input type="text" id="checkout-numero" placeholder="123" required />
+                </label>
+
+                <label class="field">
+                  <span>Bairro</span>
+                  <input type="text" id="checkout-bairro" placeholder="Bela Vista" />
+                </label>
+
+                <label class="field">
+                  <span>Cidade *</span>
+                  <input type="text" id="checkout-cidade" placeholder="Gaspar" value="Gaspar" required />
+                </label>
+
+                <label class="field">
+                  <span>Estado (UF) *</span>
+                  <input type="text" id="checkout-uf" placeholder="SC" value="SC" maxlength="2" required />
+                </label>
+
+                <label class="field">
+                  <span>CEP *</span>
+                  <input type="text" id="checkout-cep" placeholder="89110-000" required />
+                </label>
+              </div>
+            </div>
+
+            <!-- Bloco 3: Forma de Pagamento -->
+            <div class="checkout-block">
+              <h2>3. Forma de Pagamento</h2>
+              <div class="payment-methods">
+                <label class="payment-method payment-method--selected">
+                  <input type="radio" name="paymentMethod" value="CARTAO" checked />
+                  <div>
+                    <strong>💳 Cartão de Crédito</strong>
+                    <p>Preferência selecionada; nenhuma cobrança será feita agora.</p>
+                  </div>
+                </label>
+
+                <label class="payment-method">
+                  <input type="radio" name="paymentMethod" value="PIX" />
+                  <div>
+                    <strong>⚡ Pix Instantâneo</strong>
+                    <p>Preferência selecionada; ainda sem geração de cobrança Pix.</p>
+                  </div>
+                </label>
+
+                <label class="payment-method">
+                  <input type="radio" name="paymentMethod" value="DEBITO" />
+                  <div>
+                    <strong>🏦 Débito Online</strong>
+                    <p>Preferência selecionada; ainda sem validação bancária.</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="checkout-block">
+              <h2>Pagamento</h2>
+              <p>O pedido será registrado como aguardando pagamento. Não informe dados de cartão nesta página: a integração de pagamento ainda não está ativa.</p>
             </div>
 
             <div class="checkout-actions">
               <a class="btn-secondary" th:href="@{/carrinho}">Voltar ao carrinho</a>
-              <button class="btn-primary" type="button">Confirmar pagamento</button>
+              <button class="btn-primary" id="btn-confirmar-pagamento" type="button">Registrar pedido pendente</button>
             </div>
           </section>
 
           <aside class="order-summary order-summary--checkout" aria-label="Resumo do pedido">
-            <h2>Resumo do pedido</h2>
+            <h2>Resumo da Compra</h2>
             <ul class="summary-list">
-              <li><span>Subtotal</span><strong th:text="${resumo.subtotal}">R$ 0,00</strong></li>
-              <li><span>Descontos</span><strong th:text="${resumo.descontos}">R$ 0,00</strong></li>
-              <li><span>Taxa de entrega</span><strong th:text="${resumo.taxaEntrega}">R$ 0,00</strong></li>
-              <li class="summary-total"><span>Total</span><strong th:text="${resumo.total}">R$ 0,00</strong></li>
+              <li><span>Subtotal</span><strong id="checkout-subtotal" th:text="${resumo != null ? resumo.subtotalFormatado : 'R$ 0,00'}">R$ 0,00</strong></li>
+              <li><span>Descontos</span><strong id="checkout-desconto" th:text="${resumo != null ? resumo.descontoFormatado : 'R$ 0,00'}">R$ 0,00</strong></li>
+              <li><span>Frete</span><strong id="checkout-frete" th:text="${resumo != null ? resumo.freteFormatado : 'Grátis'}">Grátis</strong></li>
+              <li class="summary-total"><span>Total</span><strong id="checkout-total" th:text="${resumo != null ? resumo.totalFormatado : 'R$ 0,00'}">R$ 0,00</strong></li>
             </ul>
 
             <div class="checkout-note">
-              <strong>Pedido seguro</strong>
-              <p>Seus dados sao tratados com sigilo e usados apenas para concluir a compra.</p>
+              <strong>🔒 Compra 100% Protegida</strong>
+              <p>Seus dados estão protegidos com criptografia SSL de nível bancário.</p>
             </div>
           </aside>
         </div>
@@ -175,11 +171,13 @@
     </section>
   </main>
 
-  <footer class="auth-site-footer">
-    <div class="logo">
-      <span class="logo-mark" aria-hidden="true">DA</span>
-      <span class="logo-text">Drogaria <span>Amarante</span></span>
+  <footer class="site-footer">
+    <div class="container">
+      <p>Drogaria Amarante 2026. Todos os direitos reservados.</p>
     </div>
   </footer>
+
+  <script th:src="@{/js/csrf.js}" src="/js/csrf.js" defer></script>
+  <script th:src="@{/js/checkout.js}" src="/js/checkout.js" defer></script>
 </body>
 </html>

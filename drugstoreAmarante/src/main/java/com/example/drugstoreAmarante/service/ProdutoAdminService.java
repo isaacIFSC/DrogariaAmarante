@@ -191,6 +191,16 @@ public class ProdutoAdminService {
             .toList();
     }
 
+    public long countProdutos() {
+        return produtoRepository.count();
+    }
+
+    public long countProdutosAtivos() {
+        return produtoRepository.findAll().stream()
+            .filter(produto -> produto.isAtivo() && produto.getEstoque() != null && produto.getEstoque() > 0)
+            .count();
+    }
+
     private ProdutoResponse toResponse(Produto produto) {
         return new ProdutoResponse(
             produto.getId(),

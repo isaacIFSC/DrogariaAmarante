@@ -27,31 +27,39 @@ public class ProdutoImagemSchemaMigrator {
                 DatabaseMetaData metaData = connection.getMetaData();
                 String productName = metaData.getDatabaseProductName().toLowerCase(Locale.ROOT);
 
-                if (!produtoImagemPrecisaMigracao(metaData)) {
-                    return;
-                }
-
-                try (Statement statement = connection.createStatement()) {
-                    if (productName.contains("sql server")) {
-                        statement.executeUpdate(
-                            "ALTER TABLE produtos ALTER COLUMN imagem_url NVARCHAR(MAX) NOT NULL"
-                        );
-                        log.info("Coluna produtos.imagem_url atualizada para NVARCHAR(MAX).");
-                    } else if (productName.contains("h2")) {
-                        statement.executeUpdate(
-                            "ALTER TABLE produtos ALTER COLUMN imagem_url CLOB NOT NULL"
-                        );
-                        log.info("Coluna produtos.imagem_url atualizada para CLOB.");
-                    }
-                }
+                migrarColunaImagem(connection, metaData, productName, "produtos", false);
+                migrarColunaImagem(connection, metaData, productName, "itens_pedido", true);
             } catch (SQLException ex) {
                 log.warn("Nao foi possivel ajustar a coluna produtos.imagem_url automaticamente.", ex);
             }
         };
     }
 
-    private boolean produtoImagemPrecisaMigracao(DatabaseMetaData metaData) throws SQLException {
-        try (ResultSet columns = metaData.getColumns(null, null, "produtos", "imagem_url")) {
+    private void migrarColunaImagem(
+        Connection connection,
+        DatabaseMetaData metaData,
+        String productName,
+        String tableName,
+        boolean nullable
+    ) throws SQLException {
+        if (!imagemPrecisaMigracao(metaData, tableName)) {
+            return;
+        }
+
+        String nullability = nullable ? " NULL" : " NOT NULL";
+        try (Statement statement = connection.createStatement()) {
+            if (productName.contains("sql server")) {
+                statement.executeUpdate("ALTER TABLE " + tableName + " ALTER COLUMN imagem_url NVARCHAR(MAX)" + nullability);
+                log.info("Coluna {}.imagem_url atualizada para NVARCHAR(MAX).", tableName);
+            } else if (productName.contains("h2")) {
+                statement.executeUpdate("ALTER TABLE " + tableName + " ALTER COLUMN imagem_url CLOB" + nullability);
+                log.info("Coluna {}.imagem_url atualizada para CLOB.", tableName);
+            }
+        }
+    }
+
+    private boolean imagemPrecisaMigracao(DatabaseMetaData metaData, String tableName) throws SQLException {
+        try (ResultSet columns = metaData.getColumns(null, null, tableName, "imagem_url")) {
             if (!columns.next()) {
                 return false;
             }
@@ -59,8 +67,9 @@ public class ProdutoImagemSchemaMigrator {
             int columnSize = columns.getInt("COLUMN_SIZE");
             String typeName = columns.getString("TYPE_NAME");
 
+            String normalizedType = typeName == null ? "" : typeName.toLowerCase(Locale.ROOT);
             return columnSize > 0 && columnSize <= 600
-                || (typeName != null && typeName.toLowerCase(Locale.ROOT).contains("varchar"));
+                || (normalizedType.contains("varchar") && !normalizedType.contains("max"));
         }
     }
 }
